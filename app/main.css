@@ -79,6 +79,21 @@ h3 {
     margin: auto;
     position: relative;
 }
+.nav-icon{
+    margin:7px;
+    color: white;
+}
+.nav-spl{   
+    color:white;
+}
+.search-icon{
+    margin-top:3px;
+    padding:1px;
+    font-size:27px;
+}
+.mdl-layout__tab{
+    width:25%;
+}
 @media screen and (max-width: 840px) {
     .header .mdl-layout__header-row.titlebar {
         height: 56px;
@@ -314,7 +329,7 @@ h3 {
 #splash-page{
     height:100%;
     width:100%;
-    padding-top:10%;
+    padding-top:6%;
     
     text-align: center;
     position: fixed;
