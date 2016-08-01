@@ -57,7 +57,7 @@ function createOppElement(oppId, title, organisation, description ) {
 	var html ='<div class="post mdl-cell mdl-cell--12-col ' +
                   	'mdl-cell--6-col-tablet mdl-grid">' +
 			        '<div class="mdl-card mdl-shadow--6dp">' +
-			          '<div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">' +
+			          '<div class="mdl-card__title mdl-color--red-600 mdl-color-text--white">' +
 			            '<h4 class="mdl-card__title-text"></h4>' +
 			          '</div>' +
 			          '<div class="header">' +
