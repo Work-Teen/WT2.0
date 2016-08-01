@@ -315,10 +315,10 @@ h3 {
     height:100%;
     width:100%;
     padding-top:10%;
-    overflow: hidden;
+    
     text-align: center;
     position: fixed;
-    background: url('img/splash.jpg') center / cover;
+    background: url('img/bg.jpg') center / cover;
     z-index: 10000;
     
 
@@ -330,7 +330,23 @@ h2 {
     margin-top:-25px;
 
 }
+.splash-card-title{
+    padding-top:20px;
+    text-align: center;
+    margin:10px;
+    margin-bottom:-2%;
+    font-family: 'Karla';
+    font-size:38px
+}
+.splash-card-subtitle{
+    text-align: center;
+    font-family: 'Karla';
+    font-size:25px;
+    margin-bottom:-6%;
+}
+
 .mdl-card {
+    margin-top: 2em;
     width: 100%;
 }
 .mdl-cell--4-col{
@@ -340,19 +356,21 @@ h2 {
     margin-top: 10px;
     
     color:white;
-    width: 100%;
+    width: 45%;
 }
 .g-button{
     margin-top: 10px;
    
     color: white;
-    width: 100%;
+    width: 45%;
 
 }
 .login-button{
-    
-    
-    color: white;
-    width: 100%;
-
+    color:red;
+    width: 60%;
+    background:transparent;
+}
+.other-links {
+    color:red;
+    background-color: rgba(0, 0, 0, 0.1);
 }
