@@ -54,10 +54,10 @@ function postOpportunity(uid, username, title, organisation, description ) {
 function createOppElement(oppId, title, organisation, description ) {
 	var uid = firebase.auth().currentUser.uid;
   console.log("Opportunity Created");
-	var html ='<div class="post mdl-cell mdl-cell--12-col ' +
+	var html ='<div class="post mdl-cell mdl-cell--8-col mdl-cell--2-offset ' +
                   	'mdl-cell--6-col-tablet mdl-grid">' +
 			        '<div class="mdl-card mdl-shadow--6dp">' +
-			          '<div class="mdl-card__title mdl-color--red-600 mdl-color-text--white">' +
+			          '<div class="mdl-card__title ">' +
 			            '<h4 class="mdl-card__title-text"></h4>' +
 			          '</div>' +
 			          '<div class="header">' +
@@ -67,7 +67,8 @@ function createOppElement(oppId, title, organisation, description ) {
 			            '</div>' +
 			          '</div>' +
 			          '<div class="mdl-card__supporting-text">' +
-			          	'<h6 class="description"></h6>' +
+			          	'<h6 class="uploader">Uploaded by <a href=#>Mark Antony</a></h6>' +
+                  '<h6 class="description"></h6>' +
 			          '</div>'+
 			          '<div class="mdl-card__actions mdl-card--border">' +
                         '<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect dialog-button">' +

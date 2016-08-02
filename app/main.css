@@ -253,7 +253,7 @@ h3 {
 
 /* Post */
 
-.post .mdl-card {
+/*.post .mdl-card {
     height: 100%;
     top: 0;
     left: 0;
@@ -308,6 +308,13 @@ h3 {
 }
 .post .star .starred {
     display: none;
+}*/
+
+/*Card Stuff here pls not touch */
+.mdl-card__title{
+    color: #fff;
+    height: 230px;
+    background: url('img/bg.jpg') center / cover;
 }
 
 /* Splash Page */
@@ -333,7 +340,7 @@ h3 {
     
     text-align: center;
     position: fixed;
-    background: url('img/bg.jpg') center / cover;
+    background: url('img/splash.jpg') center / cover;
     z-index: 10000;
     
 
