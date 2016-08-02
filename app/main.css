@@ -179,6 +179,7 @@ h3 {
     top: 10px;
     z-index: 998;
 }
+
 @media screen and (max-width: 840px) {
     #add {
         position: fixed;
@@ -318,6 +319,9 @@ h3 {
 }
 .share-icon{
     color: white;
+}
+.mdl-card__actions{
+    text-align:center;
 }
 /* Splash Page */
 
