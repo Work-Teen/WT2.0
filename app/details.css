@@ -1,0 +1,43 @@
+.nav-icon{
+    margin:7px;
+    color: white;
+}
+.nav-spl{   
+    color:white;
+}
+.search-icon{
+    margin-top:3px;
+    padding:1px;
+    font-size:27px;
+}
+.mdl-layout__tab{
+    width:25%;
+}
+
+.activity-title{
+    font-family: 'Karla', sans-serif;
+    font-size: 50px;    
+    text-align: center;
+}
+.uploader-text{
+    font-family: 'Karla', sans-serif;
+    font-size: 20px;   
+    text-align: right; 
+}
+
+.mdl-cell--12-col{
+    margin-top:2%;
+    padding:20px;
+}
+.details-part{
+    margin-top:0px;
+}
+.mdl-list__item{
+    margin:0px;
+    padding:0px;
+}
+.descriptive-text{
+    text-align: justify;
+    font-size:25px;
+    margin:30px;    
+}
