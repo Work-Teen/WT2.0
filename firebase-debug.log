@@ -12,3 +12,17 @@
 [info] Public Directory: app
 [info] 
 [info] Server listening at: http://127.0.0.1:5000
+[debug] ----------------------------------------------------------------------
+[debug] Command:      /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] CLI Version:  3.0.4
+[debug] Platform:     darwin
+[debug] Node Version: v4.4.2
+[debug] Time:         Tue Aug 02 2016 00:24:33 GMT+0530 (IST)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[info] Starting Firebase development server...
+[info] 
+[info] Project Directory: /Users/aayushchadha/Desktop/WT2.0
+[info] Public Directory: app
+[info] 
+[info] Server listening at: http://localhost:5000

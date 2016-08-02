@@ -173,12 +173,15 @@ h3 {
     top: 18px;
     z-index: 998;
 }
+<<<<<<< Updated upstream
 #sign-out {
     position: absolute;
     right: 90px;
     top: 10px;
     z-index: 998;
 }
+=======
+>>>>>>> Stashed changes
 
 @media screen and (max-width: 840px) {
     #add {
@@ -399,6 +402,5 @@ h2 {
     background:transparent;
 }
 .other-links {
-    color:red;
     background-color: rgba(0, 0, 0, 0.1);
 }
