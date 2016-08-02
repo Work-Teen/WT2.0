@@ -316,7 +316,9 @@ h3 {
     height: 230px;
     background: url('img/bg.jpg') center / cover;
 }
-
+.share-icon{
+    color: white;
+}
 /* Splash Page */
 
 /*#splash-page {

@@ -81,6 +81,11 @@ function createOppElement(oppId, title, organisation, description ) {
                           'More Info' +
                         '</a>' +
                       '</div>' +
+                      '<div class="mdl-card__menu">' +
+                        '<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">' +
+                          '<i class="material-icons share-icon">share</i>' +
+                        '</button>' +
+                      '</div>' +
 			          '</div>' +
 			      '</div>';
 	var div = document.createElement('div');
