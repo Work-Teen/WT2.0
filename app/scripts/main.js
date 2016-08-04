@@ -53,9 +53,10 @@ function postOpportunity(uid, username, title, organisation, description ) {
 
 function createOppElement(oppId, title, organisation, description ) {
 	var uid = firebase.auth().currentUser.uid;
+  var oppKey = firebase.database().ref().child('opportunities').push().key;
   console.log("Opportunity Created");
-	var html ='<div class="post mdl-cell mdl-cell--8-col mdl-cell--2-offset ' +
-                  	'mdl-cell--6-col-tablet mdl-grid">' +
+	var html ='<div class="mdl-cell mdl-cell--12-col ' +
+                  	'mdl-cell--12-col-tablet mdl-grid post ">' +
 			        '<div class="mdl-card mdl-shadow--6dp">' +
 			          '<div class="mdl-card__title ">' +
 			            '<h4 class="mdl-card__title-text"></h4>' +
@@ -77,7 +78,7 @@ function createOppElement(oppId, title, organisation, description ) {
                         '<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">' +
                           'Invite' +
                         '</a>' +
-                        '<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">' +
+                        '<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id = "more-info">' +
                           'More Info' +
                         '</a>' +
                       '</div>' +
@@ -103,6 +104,7 @@ function startDatabaseQueries() {
 	var myUserId = firebase.auth().currentUser.uid;
 	var recentPostsRef = firebase.database().ref('opportunities').limitToLast(100);
 	var userPostsRef = firebase.database().ref('user-opp/' + myUserId);
+  console.log(userPostsRef);
 
 	var fetchPosts = function(postsRef, sectionElement) {
 		postsRef.on('child_added', function(data) {
@@ -214,7 +216,7 @@ window.addEventListener('load', function() {
         // [START_EXCLUDE]
         postOpportunity(firebase.auth().currentUser.uid, firebase.auth().currentUser.displayName,
             opportunityTitle.value, opportunityOrganisation.value, postText).then(function() {
-              publicFeedMenu.click();
+              publicFeedMenuButton.click();
             });
         // [END_EXCLUDE]
       });
