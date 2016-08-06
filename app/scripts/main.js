@@ -57,37 +57,59 @@ function createOppElement(oppId, title, organisation, description ) {
   console.log("Opportunity Created");
 	var html ='<div class="mdl-cell mdl-cell--12-col ' +
                   	'mdl-cell--12-col-tablet mdl-grid post ">' +
-			        '<div class="mdl-card mdl-shadow--6dp">' +
-			          '<div class="mdl-card__title ">' +
-			            '<h4 class="mdl-card__title-text"></h4>' +
-			          '</div>' +
-			          '<div class="header">' +
-			            '<div>' +
-			              '<div class="avatar"></div>' +
-			              '<div class="username mdl-color-text--black"></div>' +
-			            '</div>' +
-			          '</div>' +
-			          '<div class="mdl-card__supporting-text">' +
-			          	'<h6 class="uploader">Uploaded by <a href=#>Mark Antony</a></h6>' +
-                  '<h6 class="description"></h6>' +
-			          '</div>'+
-			          '<div class="mdl-card__actions mdl-card--border">' +
-                        '<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect dialog-button">' +
-                          'Apply' +
-                        '</a>' +
-                        '<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">' +
-                          'Invite' +
-                        '</a>' +
-                        '<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id = "more-info">' +
-                          'More Info' +
-                        '</a>' +
-                      '</div>' +
-                      '<div class="mdl-card__menu">' +
-                        '<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">' +
-                          '<i class="material-icons share-icon">share</i>' +
-                        '</button>' +
-                      '</div>' +
-			          '</div>' +
+			        '<div class="mdl-card mdl-shadow--6dp mdl-tabs mdl-js-tabs">' +
+                '<div class = "mdl-tabs__panel is-active" id = "about-panel">' +
+                  '<div class="mdl-card__title ">' + 
+                    '<h4 class="mdl-card__title-text"></h4>' + 
+                  '</div>' + 
+                  '<div class="header">' + 
+                    '<div>' + 
+                      '<div class="avatar"></div>'+
+                      '<div class="username mdl-color-text--black"></div>' + 
+                    '</div>' + 
+                  '</div>' + 
+                '</div>' +
+                '<div class="mdl-tabs__panel" id = "more-info">' + 
+                  '<div class="mdl-card__supporting-text">' +
+                    '<h5><b> Start Date:</b><span class = "start-date"></span></h5>' +
+                    '<h5><b> Total Hours:</b><span class = "hours"></span></h5>' +
+                    '<h5><b> Weekly Commitment:</b> <span class = "weekly-commitment"></span></h5>' +
+                    '<h5><b> Organisation Description:</b> <p><span class = "organisation description"></span>' +
+                    '</p></h5>' +
+                  '</div>' +
+                '</div>' +
+                '<div class="mdl-tabs__panel" id = "apply">' + 
+                  '<form id = "application-form" action="#">' +
+                    '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
+                        '<input class="mdl-textfield__input" type="text" id="applicant-name">' +
+                        '<label class="mdl-textfield__label" for="applicant-name">Name</label>' +
+                    '</div>' +
+                    '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
+                        '<input class="mdl-textfield__input" type="text" id="applicant-email">' +
+                        '<label class="mdl-textfield__label" for="applicant-email">Email</label>' +
+                    '</div>' +
+                    '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
+                        '<input class="mdl-textfield__input" type="text" id="applicant-school">' +
+                        '<label class="mdl-textfield__label" for="applicant-school">School</label>' +
+                    '</div>' +
+                    '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="display:none;">' +
+                        '<input class="mdl-textfield__input" type="text" id="applicant-contact-number">' +
+                        '<label class="mdl-textfield__label" for="applicant-contact-number">Contact Number</label>' +
+                    '</div>' +
+                    '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="display:none;">' +
+                        '<input class="mdl-textfield__input" type="text" id="applicant-locality">' +
+                        '<label class="mdl-textfield__label" for="applicant-locality">Locality</label>' +
+                    '</div>' + 
+                    '<input style="display:none;" type="file" id="file" name="file"/>' +
+                    '<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"> Apply</button>' + 
+                  '</form>' +
+                '</div>' +
+                '<div class=" mdl-card__actions mdl-tabs__tab-bar">' +
+                  '<a href="#about-panel" class="mdl-tabs__tab is-active">Name</a>' +
+                  '<a href="#more-info" class="mdl-tabs__tab">More</a>' +
+                  '<a href="#apply" class="mdl-tabs__tab">Apply</a>' +
+                '</div>' + 
+            '</div>'
 			      '</div>';
 	var div = document.createElement('div');
 	div.innerHTML = html;
