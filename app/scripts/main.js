@@ -34,7 +34,6 @@ function postOpportunity(uid, username, title, organisation, description ) {
 		organisation: username,
 		uid: uid,
 		title: title, 
-		organisation: organisation, 
 		description: description 
 
 	};
@@ -55,9 +54,7 @@ function createOppElement(oppId, title, organisation, description ) {
 	var uid = firebase.auth().currentUser.uid;
   var oppKey = firebase.database().ref().child('opportunities').push().key;
   console.log("Opportunity Created");
-	var html ='<div class="mdl-cell mdl-cell--12-col ' +
-                  	'mdl-cell--12-col-tablet mdl-grid post ">' +
-			        '<div class="mdl-card mdl-shadow--6dp mdl-tabs mdl-js-tabs">' +
+	var html ='<div class="mdl-card mdl-shadow--6dp mdl-tabs mdl-js-tabs">' +
                 '<div class = "mdl-tabs__panel is-active" id = "about-panel">' +
                   '<div class="mdl-card__title ">' + 
                     '<h4 class="mdl-card__title-text"></h4>' + 
@@ -110,14 +107,17 @@ function createOppElement(oppId, title, organisation, description ) {
                   '<a href="#apply" class="mdl-tabs__tab">Apply</a>' +
                 '</div>' + 
             '</div>'
-			      '</div>';
+            '</div>';
 	var div = document.createElement('div');
 	div.innerHTML = html;
 	var oppElement = div.firstChild;
 	oppElement.getElementsByClassName('description')[0].innerText = description;
   oppElement.getElementsByClassName('mdl-card__title-text')[0].innerText = title;
   oppElement.getElementsByClassName('username')[0].innerText = organisation;
-
+  componentHandler.upgradeElements(oppElement);
+  //componentHandler.upgradeElements(oppElement.getElementsByClassName('mdl-textfield')[1]);
+  //componentHandler.upgradeElements(oppElement.getElementsByClassName('mdl-textfield')[2]);
+  //componentHandler.upgradeElements(oppElement.getElementsByClassName('mdl-tabs')[0]);
   return oppElement;
   
 }
