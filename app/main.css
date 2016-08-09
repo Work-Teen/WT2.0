@@ -15,7 +15,7 @@
  */
 
 html, body {
-    font-family: 'Roboto', 'Helvetica', sans-serif;
+    font-family: 'Karla', 'Helvetica', sans-serif;
 }
 a {
     text-decoration: underline;
@@ -46,13 +46,13 @@ h3 {
     overflow: visible;
 }
 /* Overrides MDL colors */
-.mdl-layout.is-upgraded .mdl-layout__tab.is-active::after,
+/*.mdl-layout.is-upgraded .mdl-layout__tab.is-active::after,
 .header .mdl-textfield__label:after {
     background-color: #FFCA28;
-}
-.mdl-snackbar__action {
+}*/
+/*.mdl-snackbar__action {
     color: #FFCA28;
-}
+}*/
 .mdl-textfield__label:after {
     background-color: #0288D1;
 }
@@ -63,7 +63,7 @@ h3 {
 /* Header */
 
 .logo {
-    font-family: 'Amaranth', sans-serif;
+    font-family: 'Karla', sans-serif;
 }
 .logo .material-icons {
     top: 4px;
@@ -173,15 +173,12 @@ h3 {
     top: 18px;
     z-index: 998;
 }
-<<<<<<< Updated upstream
 #sign-out {
     position: absolute;
     right: 90px;
     top: 10px;
     z-index: 998;
 }
-=======
->>>>>>> Stashed changes
 
 @media screen and (max-width: 840px) {
     #add {
@@ -379,6 +376,8 @@ h2 {
 .mdl-card {
     margin-top: 2em;
     width: 100%;
+    height: auto;
+    padding:20px;
 }
 .mdl-cell--4-col{
     text-align: center;
@@ -396,6 +395,12 @@ h2 {
     width: 45%;
 
 }
+.mdl-tabs__tab-bar{
+    border:none;
+}
+#apply{
+    padding:20px;
+}
 .login-button{
     color:red;
     width: 60%;
@@ -403,4 +408,28 @@ h2 {
 }
 .other-links {
     background-color: rgba(0, 0, 0, 0.1);
+}
+.mdl-card__supporting-text{
+    font-family: 'Karla', sans-serif;
+    font-size: 20px;
+}
+
+.form-title{
+    color: red;
+    font-family: 'Karla', sans-serif;
+    text-align: center;
+}
+.mdl-card__title-text{
+    padding:20px;
+    text-align: center;
+    padding-bottom: 0px;
+}
+form{
+    margin:10px;
+}
+form .apply-button{
+    color:red;
+    text-align: left;
+    background:transparent;
+    margin-top:20px;
 }

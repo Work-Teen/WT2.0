@@ -66,13 +66,18 @@ function createOppElement(oppId, title, organisation, description ) {
                     '</div>' + 
                   '</div>' + 
                 '</div>' +
+                '<div class="mdl-card__menu">'+
+                        '<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">'+
+                          '<i class="material-icons">share</i>'+
+                       '</button>'+
+                      '</div>'+
                 '<div class="mdl-tabs__panel" id = "more-info">' + 
                   '<div class="mdl-card__supporting-text">' +
-                    '<h5><b> Start Date:</b><span class = "start-date"></span></h5>' +
-                    '<h5><b> Total Hours:</b><span class = "hours"></span></h5>' +
-                    '<h5><b> Weekly Commitment:</b> <span class = "weekly-commitment"></span></h5>' +
-                    '<h5><b> Organisation Description:</b> <p><span class = "organisation description"></span>' +
-                    '</p></h5>' +
+                    '<h6><b> Start Date:</b><span class = "start-date"></span></h6>' +
+                    '<h6><b> Total Hours:</b><span class = "hours"></span></h6>' +
+                    '<h6><b> Weekly Commitment:</b> <span class = "weekly-commitment"></span></h6>' +
+                    '<h6><b> Organisation Description:</b> <p><span class = "organisation description"></span>' +
+                    '</p></h6>' +
                   '</div>' +
                 '</div>' +
                 '<div class="mdl-tabs__panel" id = "apply">' + 
@@ -98,7 +103,7 @@ function createOppElement(oppId, title, organisation, description ) {
                         '<label class="mdl-textfield__label" for="applicant-locality">Locality</label>' +
                     '</div>' + 
                     '<input style="display:none;" type="file" id="file" name="file"/>' +
-                    '<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"> Apply</button>' + 
+                    '<button type="submit" class="mdl-button mdl-js-button apply-button  mdl-js-ripple-effect"> Apply</button>' + 
                   '</form>' +
                 '</div>' +
                 '<div class=" mdl-card__actions mdl-tabs__tab-bar">' +
