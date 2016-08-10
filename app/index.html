@@ -148,8 +148,8 @@
                   			</label>
                 		</div>
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input class="mdl-textfield__input" type="text" id="new-opportunity-description">
-                        <label class="mdl-textfield__label" for="new-opportunity-description">Contact Email
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-email">
+                        <label class="mdl-textfield__label" for="new-opportunity-email">Contact Email
                         </label>
                     </div>
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -159,7 +159,7 @@
                     </div>
                    
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input class="mdl-textfield__input" type="text" data-role="materialtags"id="new-opportunity-tags"/>
+                        <input class="mdl-textfield__input" type="text" data-role="materialtags" id="new-opportunity-tags"/>
                     </div>
                     <h5> Please select optional applicant details that are required in the form. </h5>
                     <label for="contact-number" class="mdl-checkbox mdl-js-checkbox">
@@ -217,6 +217,7 @@ $("#new-opportunity-tags").tagit({
     availableTags: ["c++", "java", "php", "javascript", "ruby", "python", "c"],
     autocomplete: {delay: 0, minLength: 2}
 });
+var starCountRef = firebase.database().ref().child('user-opp');
 </script>
 <script src="../scripts/main.js"></script>
 
