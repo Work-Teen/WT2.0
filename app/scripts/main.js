@@ -68,14 +68,12 @@ function postOpportunity() {
   
 	// new key for opportunity
 	var newOppKey = firebase.database().ref().child('opportunities').push().key;
-  var emptyObj = {
-    oppkey: newOppKey
-  };
+  
   console.log("I worked in posting");
 	//writing data to public and user feed
 	var updates = {};
 	updates['/opportunities/' + newOppKey] = oppData;
-	updates['/user-opp/' + getUser().uid + '/' + newOppKey] = emptyObj;
+  updates['/user-opp/' + uid + '/' + newOppKey] = oppData;
 
 	return firebase.database().ref().update(updates);
   
@@ -83,6 +81,7 @@ function postOpportunity() {
 
 function createOppElement(oppId, title, organisation, description, commitment, address, email, website, contactNumber, locality, resume, workExperience) {
 	var uid = getUser().uid;
+  var oppKey = firebase.database().ref().child('opportunities').push().key;
   console.log("Opportunity Created");
 	var html ='<div class="mdl-card mdl-shadow--6dp mdl-tabs mdl-js-tabs">' +
                 '<div class = "mdl-tabs__panel is-active" id = "about-panel">' +
@@ -161,16 +160,15 @@ function startDatabaseQueries() {
 	var myUserId = getUser().uid;
 	var recentPostsRef = firebase.database().ref('opportunities').limitToLast(100);
 	var userPostsRef = firebase.database().ref('user-opp/' + myUserId);
-  console.log(userPostsRef);
+  console.log("Entering the dragon");
 
-  function fetchByKey(key, sectionElement) {
+  /* function fetchByKey(key, sectionElement) {
     var ref = firebase.database().ref('opportunities/' + key);
     ref.on('value', function(snapshot){
       var data = snapshot.val();
       var containerElement = sectionElement.getElementsByClassName('posts-container')[0];
       containerElement.insertBefore(
         createOppElement(
-          key,
           data.title,
           data.organisation,
           data.description,
@@ -182,15 +180,24 @@ function startDatabaseQueries() {
         containerElement.firstChild);
       console.log("I fetched posts");
     });
-  }
+  } */
 
-  function fetchPosts(postsRef, sec) {
-    userPostsRef.on('child_added', function(data){
-      var key = data.key;
-      fetchByKey(key, sec);
+  var fetchPosts = function(postsRef, sectionElement) {
+    postsRef.on('child_added', function(data) {
+      var containerElement = sectionElement.getElementsByClassName('posts-container')[0];
+        containerElement.insertBefore(
+          createOppElement(
+            data.key,
+            data.val().title,
+            data.val().organisation,
+            data.val().description,
+            data.val().commitment,
+            data.val().address,
+            data.val().email,
+            data.val().website), containerElement.firstChild);
+      console.log("I fetched posts");
     });
-  }
-
+  };
 	fetchPosts(recentPostsRef, publicPostsSection);
   fetchPosts(userPostsRef, myPostsSection);
 }
