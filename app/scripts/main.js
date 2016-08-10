@@ -1,17 +1,19 @@
 'use strict';
-
 //Variables linking DOM Elements
 var opportunityForm = document.getElementById('opportunity-form');
 
 //All form elements
 var opportunityTitle = document.getElementById('new-opportunity-title');
-// var opportunityCategory = document.getElementById('new-opportunity-category');
 var opportunityOrganisation = document.getElementById('new-opportunity-organisation');
-// var opportunityDate = document.getElementById('new-opportunity-date');
-// var opportunityHours = document.getElementById('new-opportunity-hours');
-// var opportunityAddress = document.getElementById('new-opportunity-Address');
-// var opportunityCommitment = document.getElementById('new-opportunity-commitment');
+var opportunityAddress = document.getElementById('new-opportunity-address');
+var opportunityCommitment = document.getElementById('new-opportunity-commitment');
 var opportunityDescription = document.getElementById('new-opportunity-description');
+var opportunityEmail = document.getElementById('new-opportunity-email');
+var opportunityWebsite = document.getElementById('new-opportunity-website');
+var contactNumber = document.getElementById('contact-number');
+var locality = document.getElementById('locality');
+var resume = document.getElementById('resume');
+var workExperience = document.getElementById('work-experience');
 
 //Miscellaneous elements
 var splashPage = document.getElementById('splash-page');
@@ -26,33 +28,61 @@ var publicFeedMenuButton = document.getElementById('public-feed');
 var signOutButton = document.getElementById('sign-out');
 var email = document.getElementById('email');
 var password = document.getElementById('userpass');
+
+function getTags() {
+  var tagsLi = document.getElementsByClassName('tagit-choice ui-widget-content ui-state-default ui-corner-all tagit-choice-editable');
+  var i = 0;
+  var tags = [];
+  if (tagsLi.length != undefined) {
+    while (i < tagsLi.length) {
+      var tagText = tagsLi[i].getElementsByClassName('tagit-label')[0].innerText;
+      tags.push(tagText);
+      i++;
+    }
+  }
+  return tags;
+}
 /**
 Pushing opportunity to database/
 */
-function postOpportunity(uid, username, title, organisation, description ) {
-	var oppData = {
-		organisation: username,
-		uid: uid,
-		title: title, 
-		description: description 
+function postOpportunity() {
+  //data =  [uid, username, title, organisation, description]
+	var tags = getTags();
 
+  var oppData = {
+    title: opportunityTitle.value,
+    organisation: opportunityOrganisation.value,
+    address: opportunityAddress.value,
+    commitment: opportunityCommitment.value,
+    description: opportunityDescription.value,
+    email: opportunityEmail.value,
+    website: opportunityWebsite.value,
+    contactNumber: contactNumber.checked,
+    locality: locality.checked,
+    resume: resume.checked,
+    workExperience: workExperience.checked,
+    tags: tags
 	};
 
+
+  
 	// new key for opportunity
 	var newOppKey = firebase.database().ref().child('opportunities').push().key;
+  var emptyObj = {
+    oppkey: newOppKey
+  };
   console.log("I worked in posting");
 	//writing data to public and user feed
 	var updates = {};
 	updates['/opportunities/' + newOppKey] = oppData;
-	updates['/user-opp/' + uid + '/' + newOppKey] = oppData;
+	updates['/user-opp/' + getUser().uid + '/' + newOppKey] = emptyObj;
 
 	return firebase.database().ref().update(updates);
   
 }
 
 function createOppElement(oppId, title, organisation, description ) {
-	var uid = firebase.auth().currentUser.uid;
-  var oppKey = firebase.database().ref().child('opportunities').push().key;
+	var uid = getUser().uid;
   console.log("Opportunity Created");
 	var html ='<div class="mdl-card mdl-shadow--6dp mdl-tabs mdl-js-tabs">' +
                 '<div class = "mdl-tabs__panel is-active" id = "about-panel">' +
@@ -66,18 +96,13 @@ function createOppElement(oppId, title, organisation, description ) {
                     '</div>' + 
                   '</div>' + 
                 '</div>' +
-                '<div class="mdl-card__menu">'+
-                        '<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">'+
-                          '<i class="material-icons">share</i>'+
-                       '</button>'+
-                      '</div>'+
                 '<div class="mdl-tabs__panel" id = "more-info">' + 
                   '<div class="mdl-card__supporting-text">' +
-                    '<h6><b> Start Date:</b><span class = "start-date"></span></h6>' +
-                    '<h6><b> Total Hours:</b><span class = "hours"></span></h6>' +
-                    '<h6><b> Weekly Commitment:</b> <span class = "weekly-commitment"></span></h6>' +
-                    '<h6><b> Organisation Description:</b> <p><span class = "organisation description"></span>' +
-                    '</p></h6>' +
+                    '<h5><b> Start Date:</b><span class = "start-date"></span></h5>' +
+                    '<h5><b> Total Hours:</b><span class = "hours"></span></h5>' +
+                    '<h5><b> Weekly Commitment:</b> <span class = "weekly-commitment"></span></h5>' +
+                    '<h5><b> Organisation Description:</b> <p><span class = "organisation description"></span>' +
+                    '</p></h5>' +
                   '</div>' +
                 '</div>' +
                 '<div class="mdl-tabs__panel" id = "apply">' + 
@@ -103,7 +128,7 @@ function createOppElement(oppId, title, organisation, description ) {
                         '<label class="mdl-textfield__label" for="applicant-locality">Locality</label>' +
                     '</div>' + 
                     '<input style="display:none;" type="file" id="file" name="file"/>' +
-                    '<button type="submit" class="mdl-button mdl-js-button apply-button  mdl-js-ripple-effect"> Apply</button>' + 
+                    '<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"> Apply</button>' + 
                   '</form>' +
                 '</div>' +
                 '<div class=" mdl-card__actions mdl-tabs__tab-bar">' +
@@ -128,23 +153,43 @@ function createOppElement(oppId, title, organisation, description ) {
 }
 
 function startDatabaseQueries() {
-	var myUserId = firebase.auth().currentUser.uid;
+	var myUserId = getUser().uid;
 	var recentPostsRef = firebase.database().ref('opportunities').limitToLast(100);
 	var userPostsRef = firebase.database().ref('user-opp/' + myUserId);
   console.log(userPostsRef);
 
-	var fetchPosts = function(postsRef, sectionElement) {
-		postsRef.on('child_added', function(data) {
-			var containerElement = sectionElement.getElementsByClassName('posts-container')[0];
-			containerElement.insertBefore(
-				createOppElement(data.key, data.val().title, data.val().organisation, data.val().description), 
-				containerElement.firstChild);
+  function fetchByKey(key, sectionElement) {
+    var ref = firebase.database().ref('opportunities/' + key);
+    ref.on('value', function(snapshot){
+      var data = snapshot.val();
+      var containerElement = sectionElement.getElementsByClassName('posts-container')[0];
+      containerElement.insertBefore(
+        createOppElement(
+          key,
+          data.title,
+          data.organisation,
+          data.description
+        ), 
+        containerElement.firstChild);
       console.log("I fetched posts");
-		});
-	};
+    });
+  }
+
+  function fetchPosts(postsRef, sec) {
+    userPostsRef.on('child_added', function(data){
+      var key = data.key;
+      fetchByKey(key, sec);
+    });
+  }
+
 	fetchPosts(recentPostsRef, publicPostsSection);
   fetchPosts(userPostsRef, myPostsSection);
 }
+
+function getUser() {
+  return firebase.auth().currentUser;
+}
+
 function writeUserData(userId, name, email) {
 	firebase.database().ref('users/' + userId).set({
     username: name,
@@ -233,19 +278,10 @@ window.addEventListener('load', function() {
   opportunityForm.onsubmit = function(e) {
     e.preventDefault();
     if (opportunityDescription.value && opportunityTitle.value && opportunityOrganisation.value) {
-      var postText = opportunityDescription.value;
-      opportunityDescription.value = '';
       console.log("Reporting from submit function");
       // [START single_value_read]
-      var userId = firebase.auth().currentUser.uid;
-      firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-        var username = snapshot.val().username;
-        // [START_EXCLUDE]
-        postOpportunity(firebase.auth().currentUser.uid, firebase.auth().currentUser.displayName,
-            opportunityTitle.value, opportunityOrganisation.value, postText).then(function() {
-              publicFeedMenuButton.click();
-            });
-        // [END_EXCLUDE]
+      postOpportunity().then(function() {
+        publicFeedMenuButton.click();
       });
       // [END single_value_read]
     }
@@ -277,4 +313,5 @@ window.addEventListener('load', function() {
     opportunityOrganisation.value = '';
   };
   publicFeedMenuButton.onclick();
+>>>>>>> origin/master
 }, false);
