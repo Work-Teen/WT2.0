@@ -81,7 +81,7 @@ function postOpportunity() {
   
 }
 
-function createOppElement(oppId, title, organisation, description ) {
+function createOppElement(oppId, title, organisation, description, commitment, address, email, website, contactNumber, locality, resume, workExperience) {
 	var uid = getUser().uid;
   console.log("Opportunity Created");
 	var html ='<div class="mdl-card mdl-shadow--6dp mdl-tabs mdl-js-tabs">' +
@@ -94,15 +94,16 @@ function createOppElement(oppId, title, organisation, description ) {
                       '<div class="avatar"></div>'+
                       '<div class="username mdl-color-text--black"></div>' + 
                     '</div>' + 
+                    '<div class = "description"></div>' +
                   '</div>' + 
                 '</div>' +
                 '<div class="mdl-tabs__panel" id = "more-info">' + 
                   '<div class="mdl-card__supporting-text">' +
-                    '<h5><b> Start Date:</b><span class = "start-date"></span></h5>' +
-                    '<h5><b> Total Hours:</b><span class = "hours"></span></h5>' +
+                    '<h5><b> Address:</b> <span class = "address"></span></h5>' +
+                    '<h5><b> Email:</b> <span class = "email"></span></h5>' +
                     '<h5><b> Weekly Commitment:</b> <span class = "weekly-commitment"></span></h5>' +
-                    '<h5><b> Organisation Description:</b> <p><span class = "organisation description"></span>' +
-                    '</p></h5>' +
+                    '<h5><b> Website:</b> <span class = "website"></span>' +
+                    '</h5>' +
                   '</div>' +
                 '</div>' +
                 '<div class="mdl-tabs__panel" id = "apply">' + 
@@ -144,6 +145,10 @@ function createOppElement(oppId, title, organisation, description ) {
 	oppElement.getElementsByClassName('description')[0].innerText = description;
   oppElement.getElementsByClassName('mdl-card__title-text')[0].innerText = title;
   oppElement.getElementsByClassName('username')[0].innerText = organisation;
+  oppElement.getElementsByClassName('weekly-commitment')[0].innerText = commitment;
+  oppElement.getElementsByClassName('address')[0].innerText = address;
+  oppElement.getElementsByClassName('email')[0].innerText = email;
+  oppElement.getElementsByClassName('website')[0].innerText = website;
   componentHandler.upgradeElements(oppElement);
   //componentHandler.upgradeElements(oppElement.getElementsByClassName('mdl-textfield')[1]);
   //componentHandler.upgradeElements(oppElement.getElementsByClassName('mdl-textfield')[2]);
@@ -168,7 +173,11 @@ function startDatabaseQueries() {
           key,
           data.title,
           data.organisation,
-          data.description
+          data.description,
+          data.commitment,
+          data.address,
+          data.email,
+          data.website
         ), 
         containerElement.firstChild);
       console.log("I fetched posts");
@@ -313,5 +322,4 @@ window.addEventListener('load', function() {
     opportunityOrganisation.value = '';
   };
   publicFeedMenuButton.onclick();
->>>>>>> origin/master
 }, false);
