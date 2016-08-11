@@ -202,9 +202,9 @@ function createOppElement(
     e.preventDefault();
     //after validation, I will do it later
     var application = {
-      name: _('application-name').value;
-      email: _('application-email').value;
-      school: _('application-school').value;
+      name: _('application-name').value,
+      email: _('application-email').value,
+      school: _('application-school').value,
       contactNumber: checkBundleElements[0].value,
       locality: checkBundleElements[1].value,
       workExperience: checkBundleElements[2].value,
