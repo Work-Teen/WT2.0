@@ -1,4 +1,9 @@
 'use strict';
+//life easy funcs
+function _(id) {
+  return document.getElementById(id);
+}
+
 //Variables linking DOM Elements
 var opportunityForm = document.getElementById('opportunity-form');
 
@@ -73,15 +78,35 @@ function postOpportunity() {
 	//writing data to public and user feed
 	var updates = {};
 	updates['/opportunities/' + newOppKey] = oppData;
-  updates['/user-opp/' + uid + '/' + newOppKey] = oppData;
+  updates['/user-opp/' + getUser().uid + '/' + newOppKey] = oppData;
 
 	return firebase.database().ref().update(updates);
   
 }
 
-function createOppElement(oppId, title, organisation, description, commitment, address, email, website, contactNumber, locality, resume, workExperience) {
+function postApplication(applicationObj, oppId) {
+  var newAppKey = firebase.database().ref().child('applications').push().key;
+  var emptyObj = {key: newAppKey};
+  var updates = {};
+  updates['/applications/' + newAppKey] = applicationObj;
+  updates['/opp-app/' + oppId + '/' + newAppKey] = emptyObj;
+  updates['/user-app/' + getUser().uid + '/' + newAppKey] = emptyObj;
+  firebase.database().ref().update(updates);
+}
+
+function createOppElement(
+  oppId,
+  title,
+  organisation,
+  description,
+  commitment,
+  address,
+  email,
+  website,
+  checkBundle
+  ) {
 	var uid = getUser().uid;
-  var oppKey = firebase.database().ref().child('opportunities').push().key;
+  //var oppKey = firebase.database().ref().child('opportunities').push().key; //explain me why is this thing here?
   console.log("Opportunity Created");
 	var html ='<div class="mdl-card mdl-shadow--6dp mdl-tabs mdl-js-tabs">' +
                 '<div class = "mdl-tabs__panel is-active" id = "about-panel">' +
@@ -106,28 +131,32 @@ function createOppElement(oppId, title, organisation, description, commitment, a
                   '</div>' +
                 '</div>' +
                 '<div class="mdl-tabs__panel" id = "apply">' + 
-                  '<form id = "application-form" action="#">' +
+                  '<form id = "application-form" class="application-form" action="#">' +
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
-                        '<input class="mdl-textfield__input" type="text" id="applicant-name">' +
+                        '<input class="mdl-textfield__input nm" type="text" id="applicant-name">' +
                         '<label class="mdl-textfield__label" for="applicant-name">Name</label>' +
                     '</div>' +
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
-                        '<input class="mdl-textfield__input" type="text" id="applicant-email">' +
+                        '<input class="mdl-textfield__input nm" type="text" id="applicant-email">' +
                         '<label class="mdl-textfield__label" for="applicant-email">Email</label>' +
                     '</div>' +
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
-                        '<input class="mdl-textfield__input" type="text" id="applicant-school">' +
+                        '<input class="mdl-textfield__input nm" type="text" id="applicant-school">' +
                         '<label class="mdl-textfield__label" for="applicant-school">School</label>' +
                     '</div>' +
-                    '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="display:none;">' +
-                        '<input class="mdl-textfield__input" type="text" id="applicant-contact-number">' +
+                    '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
+                        '<input class="mdl-textfield__input cb" type="text" id="applicant-contact-number">' +
                         '<label class="mdl-textfield__label" for="applicant-contact-number">Contact Number</label>' +
                     '</div>' +
-                    '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="display:none;">' +
-                        '<input class="mdl-textfield__input" type="text" id="applicant-locality">' +
+                    '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
+                        '<input class="mdl-textfield__input cb" type="text" id="applicant-locality">' +
                         '<label class="mdl-textfield__label" for="applicant-locality">Locality</label>' +
-                    '</div>' + 
-                    '<input style="display:none;" type="file" id="file" name="file"/>' +
+                    '</div>' +
+                    '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
+                        '<input class="mdl-textfield__input cb" type="text" id="applicant-work-experience">' +
+                        '<label class="mdl-textfield__label" for="applicant-work-experience">Work Experience</label>' +
+                    '</div>' +
+                    '<input type="file" id="file" name="file" class="file"/>' +
                     '<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"> Apply</button>' + 
                   '</form>' +
                 '</div>' +
@@ -149,9 +178,44 @@ function createOppElement(oppId, title, organisation, description, commitment, a
   oppElement.getElementsByClassName('email')[0].innerText = email;
   oppElement.getElementsByClassName('website')[0].innerText = website;
   componentHandler.upgradeElements(oppElement);
+
+  var checkBundleElements = [
+    oppElement.getElementsByClassName('cb')[0],
+    oppElement.getElementsByClassName('cb')[1],
+    oppElement.getElementsByClassName('cb')[2],
+    _('file')
+  ];
+
+  var i = 0;
+  while(i < checkBundle.length) {
+    if (checkBundle[i] === false) {
+      checkBundleElements[i].parentElement.style.display = "none";
+      console.log(checkBundleElements[i]);
+    }
+    i++;
+  }
+  console.log(checkBundle);
   //componentHandler.upgradeElements(oppElement.getElementsByClassName('mdl-textfield')[1]);
   //componentHandler.upgradeElements(oppElement.getElementsByClassName('mdl-textfield')[2]);
   //componentHandler.upgradeElements(oppElement.getElementsByClassName('mdl-tabs')[0]);
+
+  oppElement.getElementsByClassName('application-form')[0].addEventListener('submit', function(e) {
+    e.preventDefault();
+    //after validation, I will do it later
+    
+      console.log(checkBundleElements[0].value);
+    var application = {
+      name: oppElement.getElementsByClassName('nm')[0].value,
+      email:oppElement.getElementsByClassName('nm')[1].value,
+      school: oppElement.getElementsByClassName('nm')[2].value,
+      contactNumber: checkBundleElements[0].value,
+      locality: checkBundleElements[1].value,
+      workExperience: checkBundleElements[2].value
+    };
+    postApplication(application, oppId);
+    
+  }, false);
+
   return oppElement;
   
 }
@@ -185,16 +249,24 @@ function startDatabaseQueries() {
   var fetchPosts = function(postsRef, sectionElement) {
     postsRef.on('child_added', function(data) {
       var containerElement = sectionElement.getElementsByClassName('posts-container')[0];
-        containerElement.insertBefore(
-          createOppElement(
-            data.key,
-            data.val().title,
-            data.val().organisation,
-            data.val().description,
-            data.val().commitment,
-            data.val().address,
-            data.val().email,
-            data.val().website), containerElement.firstChild);
+      var dat = data.val();
+      var checkBundle = [
+        dat.contactNumber,
+        dat.locality,
+        dat.workExperience
+      ];
+      containerElement.insertBefore(
+        
+        createOppElement(
+          data.key,
+          data.val().title,
+          data.val().organisation,
+          data.val().description,
+          data.val().commitment,
+          data.val().address,
+          data.val().email,
+          data.val().website,
+          checkBundle), containerElement.firstChild);
       console.log("I fetched posts");
     });
   };
