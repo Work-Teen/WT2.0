@@ -86,11 +86,12 @@ function postOpportunity() {
 
 function postApplication(applicationObj, oppId) {
   var newAppKey = firebase.database().ref().child('applications').push().key;
+  var emptyObj = {key: newAppKey};
   var updates = {};
   updates['/applications/' + newAppKey] = applicationObj;
-  updates['/opp-app/' + oppId + '/' + newAppKey] = {uid: getUser()};
-  updates['/user-app/' + getUser().uid + '/' + newAppKey] = {key: newAppKey};
-  return firebase.database().ref().update(updates);
+  updates['/opp-app/' + oppId + '/' + newAppKey] = emptyObj;
+  updates['/user-app/' + getUser().uid + '/' + newAppKey] = emptyObj;
+  firebase.database().ref().update(updates);
 }
 
 function createOppElement(
@@ -105,7 +106,7 @@ function createOppElement(
   checkBundle
   ) {
 	var uid = getUser().uid;
-  var oppKey = firebase.database().ref().child('opportunities').push().key; //explain me why is this thing here?
+  //var oppKey = firebase.database().ref().child('opportunities').push().key; //explain me why is this thing here?
   console.log("Opportunity Created");
 	var html ='<div class="mdl-card mdl-shadow--6dp mdl-tabs mdl-js-tabs">' +
                 '<div class = "mdl-tabs__panel is-active" id = "about-panel">' +
@@ -130,32 +131,32 @@ function createOppElement(
                   '</div>' +
                 '</div>' +
                 '<div class="mdl-tabs__panel" id = "apply">' + 
-                  '<form id = "application-form" action="#">' +
+                  '<form id = "application-form" class="application-form" action="#">' +
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
-                        '<input class="mdl-textfield__input" type="text" id="applicant-name">' +
+                        '<input class="mdl-textfield__input nm" type="text" id="applicant-name">' +
                         '<label class="mdl-textfield__label" for="applicant-name">Name</label>' +
                     '</div>' +
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
-                        '<input class="mdl-textfield__input" type="text" id="applicant-email">' +
+                        '<input class="mdl-textfield__input nm" type="text" id="applicant-email">' +
                         '<label class="mdl-textfield__label" for="applicant-email">Email</label>' +
                     '</div>' +
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
-                        '<input class="mdl-textfield__input" type="text" id="applicant-school">' +
+                        '<input class="mdl-textfield__input nm" type="text" id="applicant-school">' +
                         '<label class="mdl-textfield__label" for="applicant-school">School</label>' +
                     '</div>' +
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
-                        '<input class="mdl-textfield__input" type="text" id="applicant-contact-number">' +
+                        '<input class="mdl-textfield__input cb" type="text" id="applicant-contact-number">' +
                         '<label class="mdl-textfield__label" for="applicant-contact-number">Contact Number</label>' +
                     '</div>' +
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
-                        '<input class="mdl-textfield__input" type="text" id="applicant-locality">' +
+                        '<input class="mdl-textfield__input cb" type="text" id="applicant-locality">' +
                         '<label class="mdl-textfield__label" for="applicant-locality">Locality</label>' +
                     '</div>' +
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
-                        '<input class="mdl-textfield__input" type="text" id="applicant-work-experience">' +
+                        '<input class="mdl-textfield__input cb" type="text" id="applicant-work-experience">' +
                         '<label class="mdl-textfield__label" for="applicant-work-experience">Work Experience</label>' +
                     '</div>' +
-                    '<input type="file" id="file" name="file"/>' +
+                    '<input type="file" id="file" name="file" class="file"/>' +
                     '<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"> Apply</button>' + 
                   '</form>' +
                 '</div>' +
@@ -179,9 +180,9 @@ function createOppElement(
   componentHandler.upgradeElements(oppElement);
 
   var checkBundleElements = [
-    _('applicant-contact-number'),
-    _('applicant-locality'),
-    _('applicant-work-experience'),
+    oppElement.getElementsByClassName('cb')[0],
+    oppElement.getElementsByClassName('cb')[1],
+    oppElement.getElementsByClassName('cb')[2],
     _('file')
   ];
 
@@ -198,21 +199,22 @@ function createOppElement(
   //componentHandler.upgradeElements(oppElement.getElementsByClassName('mdl-textfield')[2]);
   //componentHandler.upgradeElements(oppElement.getElementsByClassName('mdl-tabs')[0]);
 
-  _('application-form').onsubmit = function(e) {
+  oppElement.getElementsByClassName('application-form')[0].addEventListener('submit', function(e) {
     e.preventDefault();
     //after validation, I will do it later
+    
+      console.log(checkBundleElements[0].value);
     var application = {
-      name: _('application-name').value,
-      email: _('application-email').value,
-      school: _('application-school').value,
+      name: oppElement.getElementsByClassName('nm')[0].value,
+      email:oppElement.getElementsByClassName('nm')[1].value,
+      school: oppElement.getElementsByClassName('nm')[2].value,
       contactNumber: checkBundleElements[0].value,
       locality: checkBundleElements[1].value,
-      workExperience: checkBundleElements[2].value,
-      resume: checkBundleElements[3].value
-    }
-  postApplication(application, oppId);
+      workExperience: checkBundleElements[2].value
+    };
+    postApplication(application, oppId);
     
-  }
+  }, false);
 
   return oppElement;
   
@@ -251,8 +253,7 @@ function startDatabaseQueries() {
       var checkBundle = [
         dat.contactNumber,
         dat.locality,
-        dat.workExperience,
-        dat.resume
+        dat.workExperience
       ];
       containerElement.insertBefore(
         
