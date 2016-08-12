@@ -123,10 +123,10 @@ function createOppElement(
                 '</div>' +
                 '<div class="mdl-tabs__panel" id = "more-info">' + 
                   '<div class="mdl-card__supporting-text">' +
-                    '<h5><b> Address:</b> <span class = "address"></span></h5>' +
-                    '<h5><b> Email:</b> <span class = "email"></span></h5>' +
-                    '<h5><b> Weekly Commitment:</b> <span class = "weekly-commitment"></span></h5>' +
-                    '<h5><b> Website:</b> <span class = "website"></span>' +
+                    '<h5 class="supporting"><b> Address:</b> <span class = "address"></span></h5>' +
+                    '<h5 class="supporting"><b> Email:</b> <span class = "email"></span></h5>' +
+                    '<h5 class="supporting"><b> Weekly Commitment:</b> <span class = "weekly-commitment"></span></h5>' +
+                    '<h5 class="supporting"><b> Website:</b> <span class = "website"></span>' +
                     '</h5>' +
                   '</div>' +
                 '</div>' +
@@ -153,15 +153,20 @@ function createOppElement(
                         '<label class="mdl-textfield__label" for="applicant-locality">Locality</label>' +
                     '</div>' +
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
-                        '<input class="mdl-textfield__input cb" type="text" id="applicant-work-experience">' +
+                        '<input  type="text" rows= "3" class="mdl-textfield__input cb" type="text" id="applicant-work-experience">' +
                         '<label class="mdl-textfield__label" for="applicant-work-experience">Work Experience</label>' +
                     '</div>' +
-                    '<input type="file" id="file" name="file" class="file"/>' +
-                    '<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"> Apply</button>' + 
+                    '<input type="file" id="file" name="file" class="file apply-button"/><br> <!-- Shows up anyway / Fix this -->' +
+                    '<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect apply-button"> Apply</button>' + 
                   '</form>' +
                 '</div>' +
+                '<div class="mdl-card__menu">'+
+                        '<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">'+
+                          '<i class="material-icons">share</i>'+
+                        '</button>'+
+                      '</div>'+
                 '<div class=" mdl-card__actions mdl-tabs__tab-bar">' +
-                  '<a href="#about-panel" class="mdl-tabs__tab is-active">Name</a>' +
+                  '<a href="#about-panel" class="mdl-tabs__tab is-active">About </a>' +
                   '<a href="#more-info" class="mdl-tabs__tab">More</a>' +
                   '<a href="#apply" class="mdl-tabs__tab">Apply</a>' +
                 '</div>' + 
