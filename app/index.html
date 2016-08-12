@@ -75,8 +75,9 @@
 	<!-- Account Page Header -->
 	<header class="header mdl-layout__header mdl-color-text--white">
       <div class="mdl-layout__header-row">
-        <h3> <i class="material-icons">people</i> WorkTeen </h3>
+        <h3> <i class="material-icons">group</i> WorkTeen </h3>
         <div class="mdl-layout-spacer"></div>
+        
         <button id = "menu" class="mdl-button mdl-js-button mdl-button--icon">
           <i class="material-icons">more_vert</i>
         </button>
@@ -117,7 +118,7 @@
 		<div class="mdl-cell mdl-cell--12-col">
 			<div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet
                   mdl-cell--12-col-desktop">
-				<div class="mdl-card_title mdl-color--red-400 mdl-color-text--white">
+				<div class="mdl-card_title  mdl-color-text--red-400">
 					<h2 class="mdl-card__title-text">Post a new opportunity</h2>
 				</div>
 				<div class="mdl-card__supporting-text">
@@ -159,7 +160,9 @@
                     </div>
                    
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input class="mdl-textfield__input" type="text" data-role="materialtags" id="new-opportunity-tags"/>
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-tags">
+                        <label class="mdl-textfield__label" for="new-opportunity-tags">Activity Tags
+                        </label>
                     </div>
                     <h5> Please select optional applicant details that are required in the form. </h5>
                     <label for="contact-number" class="mdl-checkbox mdl-js-checkbox">
@@ -178,7 +181,7 @@
                       <input type="checkbox" id="work-experience" class="mdl-checkbox__input">
                       <span class="mdl-checkbox__label">Work Experience</span>
                     </label>
-                		<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                		<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect apply-button">
                   			Add opportunity.
                 		</button> 
 					</form>
@@ -187,11 +190,11 @@
 		</div>
 	</section>
 	<section class="mdl-grid content" id="public-posts-list" style="display:none">
-    <div class="posts-container mdl-cell mdl-cell--12-col mdl-grid">
+    <div class="posts-container mdl-cell mdl-cell--8-col mdl-cell--2-offset mdl-grid">
     </div>
   </section>
   <section class="mdl-grid content" id="my-posts-list" style="display:none">
-    <div class="posts-container mdl-cell mdl-cell--12-col mdl-grid">
+    <div class="posts-container mdl-cell mdl-cell--8-col mdl-cell--2-offset mdl-grid">
     </div>
   </section>
   <!-- Opportunity Information Section -->
