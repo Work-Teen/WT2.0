@@ -5,34 +5,34 @@ function _(id) {
 }
 
 //Variables linking DOM Elements
-var opportunityForm = document.getElementById('opportunity-form');
+var opportunityForm = _('opportunity-form');
 
 //All form elements
-var opportunityTitle = document.getElementById('new-opportunity-title');
-var opportunityOrganisation = document.getElementById('new-opportunity-organisation');
-var opportunityAddress = document.getElementById('new-opportunity-address');
-var opportunityCommitment = document.getElementById('new-opportunity-commitment');
-var opportunityDescription = document.getElementById('new-opportunity-description');
-var opportunityEmail = document.getElementById('new-opportunity-email');
-var opportunityWebsite = document.getElementById('new-opportunity-website');
-var contactNumber = document.getElementById('contact-number');
-var locality = document.getElementById('locality');
-var resume = document.getElementById('resume');
-var workExperience = document.getElementById('work-experience');
+var opportunityTitle = _('new-opportunity-title');
+var opportunityOrganisation = _('new-opportunity-organisation');
+var opportunityAddress = _('new-opportunity-address');
+var opportunityCommitment = _('new-opportunity-commitment');
+var opportunityDescription = _('new-opportunity-description');
+var opportunityEmail = _('new-opportunity-email');
+var opportunityWebsite = _('new-opportunity-website');
+var contactNumber = _('contact-number');
+var locality = _('locality');
+var resume = _('resume');
+var workExperience = _('work-experience');
 
 //Miscellaneous elements
-var splashPage = document.getElementById('splash-page');
-var googleSignInButton = document.getElementById('google-sign-in-button');
-var epSignInButton = document.getElementById('ep-sign-in-button');
-var addOpportunity = document.getElementById('add-opportunity');
-var addButton = document.getElementById('add');
-var publicPostsSection = document.getElementById('public-posts-list');
-var myPostsSection = document.getElementById('my-posts-list');
-var myFeedMenuButton = document.getElementById('my-feed');
-var publicFeedMenuButton = document.getElementById('public-feed');
-var signOutButton = document.getElementById('sign-out');
-var email = document.getElementById('email');
-var password = document.getElementById('userpass');
+var splashPage = _('splash-page');
+var googleSignInButton = _('google-sign-in-button');
+var epSignInButton = _('ep-sign-in-button');
+var addOpportunity = _('add-opportunity');
+var addButton = _('add');
+var publicPostsSection = _('public-posts-list');
+var myPostsSection = _('my-posts-list');
+var myFeedMenuButton = _('my-feed');
+var publicFeedMenuButton = _('public-feed');
+var signOutButton = _('sign-out');
+var email = _('email');
+var password = _('userpass');
 
 function getTags() {
   var tagsLi = document.getElementsByClassName('tagit-choice ui-widget-content ui-state-default ui-corner-all tagit-choice-editable');
@@ -156,7 +156,7 @@ function createOppElement(
                         '<input  type="text" rows= "3" class="mdl-textfield__input cb" type="text" id="applicant-work-experience">' +
                         '<label class="mdl-textfield__label" for="applicant-work-experience">Work Experience</label>' +
                     '</div>' +
-                    '<input type="file" id="file" name="file" class="file apply-button"/><br> <!-- Shows up anyway / Fix this -->' +
+                    '<input type="file" id="file" name="file" class="file apply-button cb"/><br> <!-- Shows up anyway / Fix this -->' +
                     '<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect apply-button"> Apply</button>' + 
                   '</form>' +
                 '</div>' +
@@ -188,13 +188,17 @@ function createOppElement(
     oppElement.getElementsByClassName('cb')[0],
     oppElement.getElementsByClassName('cb')[1],
     oppElement.getElementsByClassName('cb')[2],
-    _('file')
+    oppElement.getElementsByClassName('cb')[3]
   ];
 
   var i = 0;
   while(i < checkBundle.length) {
     if (checkBundle[i] === false) {
-      checkBundleElements[i].parentElement.style.display = "none";
+      if (i == 3) {
+        checkBundleElements[i].style.display = "none";
+      } else {
+        checkBundleElements[i].parentElement.style.display = "none";
+      }
       console.log(checkBundleElements[i]);
     }
     i++;
@@ -209,13 +213,44 @@ function createOppElement(
     //after validation, I will do it later
     
       console.log(checkBundleElements[0].value);
+    var fileName = null;
+    
+    if (checkBundleElements[3].files.length > 0) {
+      var file = checkBundleElements[3].files[0];
+      var fileNameArr = file.name.split('.');
+      var ext = fileNameArr[fileNameArr.length - 1];
+      console.log(ext);
+
+
+      var fileKey = firebase.database().ref().child('files').push().key;
+      var updates = {};
+      updates['/files/' + fileKey] = fileKey;
+      firebase.database().ref().update(updates);
+
+      //resume storage feature
+      // Get a reference to the storage service, which is used to create references in your storage bucket
+      var storage = firebase.storage();
+
+      // Create a storage reference from our storage service
+      var storageRef = storage.ref();
+      fileName = 'files/' + fileKey + '.' + ext;
+
+      var resumesRef = storageRef.child(fileName).put(file);
+
+      var updates = {};
+      updates['/files/' + fileKey] = fileName;
+      firebase.database().ref().update(updates);
+    }
+
+  
     var application = {
       name: oppElement.getElementsByClassName('nm')[0].value,
       email:oppElement.getElementsByClassName('nm')[1].value,
       school: oppElement.getElementsByClassName('nm')[2].value,
       contactNumber: checkBundleElements[0].value,
       locality: checkBundleElements[1].value,
-      workExperience: checkBundleElements[2].value
+      workExperience: checkBundleElements[2].value,
+      resume: fileName
     };
     postApplication(application, oppId);
     
@@ -258,7 +293,8 @@ function startDatabaseQueries() {
       var checkBundle = [
         dat.contactNumber,
         dat.locality,
-        dat.workExperience
+        dat.workExperience,
+        dat.resume
       ];
       containerElement.insertBefore(
         
