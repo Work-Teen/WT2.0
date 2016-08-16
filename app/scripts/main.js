@@ -248,7 +248,7 @@ function createOppElement(
       if (checkBundle[i] === true) {
         var val = checkBundleElements[i].value;
         if (validate(val, 0, 50) === false) {
-          alert('more than 50 chars');
+          alert('more than 50 chars in ' + checkBundleElements[i].parentElement.getElementsByTagName('label')[0].innerHTML + ' field');
           return;
         }
         checkBundleElements[i].value = (val.length < 1) ? '-': val;
