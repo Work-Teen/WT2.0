@@ -34,6 +34,13 @@ var signOutButton = _('sign-out');
 var email = _('email');
 var password = _('userpass');
 
+function validate(str, min, max) {
+  if (str.length >= min && str.length <= max) {
+    return true;
+  }
+  return false;
+}
+
 function getTags() {
   var tagsLi = document.getElementsByClassName('tagit-choice ui-widget-content ui-state-default ui-corner-all tagit-choice-editable');
   var i = 0;
@@ -210,13 +217,54 @@ function createOppElement(
 
   oppElement.getElementsByClassName('application-form')[0].addEventListener('submit', function(e) {
     e.preventDefault();
-    //after validation, I will do it later
+    //validation
+
+    var name = oppElement.getElementsByClassName('nm')[0].value;
+    var email = oppElement.getElementsByClassName('nm')[1].value;
+    var school = oppElement.getElementsByClassName('nm')[2].value;
+
+    if (validate(name, 2, 50) === false) {
+      alert('Sorry!, get a shorter name or a bigger name(2-50 chararcters) or else, u just ain\'t getting this internship'); //we can change this text
+      return;
+    }
+
+    if (validate(email, 0, 50) === false) {
+      alert('Sorry!, hold ur horses, get a small email(50 chararcters)'); //we can change this text
+      return;
+    }
+    email = (email.length < 1) ? '-' : email;
+
+    if (validate(school, 0, 50) === false) {
+      alert('wooh! ur school has a freaking big name, don\'t freak out the people who give u opportunities(U ain\'t getting this internship 50 chararcters)'); //we can change this text
+      return;
+    }
+    school = (school.length < 1) ? '-' : school;
+
+    i = 0;
+    while (i < checkBundle.length) {
+      if (i == 3) {
+        break;//file shit
+      }
+      if (checkBundle[i] === true) {
+        var val = checkBundleElements[i].value;
+        if (validate(val, 0, 50) === false) {
+          alert('more than 50 chars in ' + checkBundleElements[i].parentElement.getElementsByTagName('label')[0].innerHTML + ' field');
+          return;
+        }
+        checkBundleElements[i].value = (val.length < 1) ? '-': val;
+      } 
+      i++;
+    }
     
-      console.log(checkBundleElements[0].value);
     var fileName = null;
-    
-    if (checkBundleElements[3].files.length > 0) {
-      var file = checkBundleElements[3].files[0];
+    //i is 3 by now, congracts i, u came a long way
+    if (checkBundle[i] === true) {//handling the file shit
+      if (checkBundleElements[i].files.length < 1) {
+        alert('chose a file for resume upload');
+        return;
+      }
+
+      var file = checkBundleElements[i].files[0];
       var fileNameArr = file.name.split('.');
       var ext = fileNameArr[fileNameArr.length - 1];
       console.log(ext);
@@ -240,13 +288,13 @@ function createOppElement(
       var updates = {};
       updates['/files/' + fileKey] = fileName;
       firebase.database().ref().update(updates);
-    }
 
+    }
   
     var application = {
-      name: oppElement.getElementsByClassName('nm')[0].value,
-      email:oppElement.getElementsByClassName('nm')[1].value,
-      school: oppElement.getElementsByClassName('nm')[2].value,
+      name: name,
+      email: email,
+      school: school,
       contactNumber: checkBundleElements[0].value,
       locality: checkBundleElements[1].value,
       workExperience: checkBundleElements[2].value,
