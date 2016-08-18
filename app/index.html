@@ -17,7 +17,9 @@
   	<link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="jquery.tagit.css">
     <link rel="stylesheet" href="tagit.ui-zendesk.css">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
 </head>
 <body>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">	
@@ -38,9 +40,15 @@
                                         <input class="mdl-textfield__input" type="text" id="email" />
                                         <label class="mdl-textfield__label" for="username">Email</label>
                                     </div>
+                                    <div id="error-login-email" style="display:none;">
+                                        <p style="color:red;"> Please enter your email </p>
+                                    </div>
                                     <div class="mdl-textfield mdl-js-textfield">
                                         <input class="mdl-textfield__input" type="password" id="userpass" />
                                         <label class="mdl-textfield__label" for="userpass">Password</label>
+                                    </div>
+                                    <div id="error-login-password" style="display:none;">
+                                        <p style="color:red;"> Email/password was incorrect </p>
                                     </div>
                                     <button id = "ep-sign-in-button" class="mdl-button mdl-js-button  mdl-js-ripple-effect login-button">Log in</button>
                                     <button id = "fb-sign-in-button" class="mdl-button mdl-js-button mdl-button--raised mdl-color--blue-900 fb-button">
@@ -51,7 +59,7 @@
                                   </button>
                                 </form>
                             </div>
-                            <div class="skip">
+                            <div class="skip" id = "skip">
                                 <a href="#"><p>Skip</p></a>
                             </div>
                             <div class="other-links">
@@ -190,11 +198,11 @@
 		</div>
 	</section>
 	<section class="mdl-grid content" id="public-posts-list" style="display:none">
-    <div class="posts-container mdl-cell mdl-cell--8-col mdl-cell--2-offset mdl-grid">
+    <div class="posts-container mdl-cell mdl-cell--2-offset-desktop mdl-cell--8-col-desktop mdl-cell--12-col-phone mdl-grid post">
     </div>
   </section>
   <section class="mdl-grid content" id="my-posts-list" style="display:none">
-    <div class="posts-container mdl-cell mdl-cell--8-col mdl-cell--2-offset mdl-grid">
+    <div class="posts-container mdl-cell mdl-cell--2-offset-desktop mdl-cell--8-col-desktop mdl-cell--12-col-phone mdl-grid post">
     </div>
   </section>
   <!-- Opportunity Information Section -->
@@ -222,6 +230,8 @@ $("#new-opportunity-tags").tagit({
 });
 var starCountRef = firebase.database().ref().child('user-opp');
 </script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
 <script src="../scripts/main.js"></script>
 
 </body>
