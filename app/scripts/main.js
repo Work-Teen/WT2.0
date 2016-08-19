@@ -114,10 +114,10 @@ function postApplication(applicationObj, oppId) {
   var emptyObj = {key: newAppKey};
   var updates = {};
   var userApp = {
-    user: getUser().uid
+    applicationId: newAppKey
   };
   updates['/applications/' + newAppKey] = applicationObj;
-  updates['/opp-app/' + oppId + '/' + newAppKey] = userApp;
+  updates['/opp-app/' + oppId + '/' + getUser().uid] = userApp;
   updates['/user-app/' + getUser().uid + '/' + newAppKey] = emptyObj;
   firebase.database().ref().update(updates);
 }
@@ -335,20 +335,29 @@ function createOppElement(oppId, title, organisation, description, commitment, a
 
     }
     if (formComplete === true) {
-      var application = {
-        name: name,
-        email: email,
-        school: school,
-        contactNumber: checkBundleElements[0].value,
-        locality: checkBundleElements[1].value,
-        workExperience: checkBundleElements[2].value,
-        resume: fileName
-      };
-      postApplication(application, oppId);
-      swal("Your application has been submitted", "The organisation will get in touch shortly", "success");
-      name = "";
-      email = "";
-      school = "";
+      var appRef = firebase.database().ref('/opp-app/' + oppId);
+      appRef.once('value').then(function(snapshot){
+        var appExists = snapshot.child(getUser().uid).exists();
+        console.log(appExists);
+        if (appExists == true) {
+          swal("You have applied already", "Find another opportunity!", "error");
+        }
+        else {
+          var application = {
+          name: name,
+          email: email,
+          school: school,
+          contactNumber: checkBundleElements[0].value,
+          locality: checkBundleElements[1].value,
+          workExperience: checkBundleElements[2].value,
+          resume: fileName
+          };
+          postApplication(application, oppId);
+          swal("Your application has been submitted", "The organisation will get in touch shortly", "success");
+        }
+      });
+      
+      
     }
   }, false);
 
@@ -504,6 +513,10 @@ window.addEventListener('load', function() {
   skipButton.addEventListener('click', function(){
     firebase.auth().signInAnonymously().then(function(user) {
         console.log('Anonymous Sign In Success', user);
+        startDatabaseQueries();
+        splashPage.style.display = 'none';
+        addButton.style.display = 'none';
+        myFeedMenuButton.style.display = 'none';
       }).catch(function(error) {
         console.error('Anonymous Sign In Error', error);
       });
