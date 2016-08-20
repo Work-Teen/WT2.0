@@ -23,8 +23,17 @@ var applications = _('applications');
 var applicationButton = _('application-button');
 var applyButton = _('apply-button');
 var applyForm = _('apply');
+
 //Miscellaneous elements
+var mainPage = _('main-page');
 var splashPage = _('splash-page');
+var accountPage = _('account-page');
+var searchPage = _('search-page');
+
+var accountHeader = _('account-header');
+
+var pages = [mainPage, splashPage, accountPage, searchPage];
+
 var googleSignInButton = _('google-sign-in-button');
 var epSignInButton = _('ep-sign-in-button');
 var skipButton = _('skip');
@@ -400,7 +409,59 @@ function writeUserData(userId, name, email) {
   });
   console.log("I wrote user data")
 }
+
+function getLoc() {
+  var routLoc = window.location.hash;
+  if (routLoc.length > 0) {
+    routLoc = routLoc.slice(1, routLoc.length).split('/');
+    var page = routLoc[0];
+    var url = [];
+    var i = 1;
+    while (i < routLoc.length) {
+      url.push(routLoc[i])
+      i++;
+    }
+    return {
+      page: page,
+      url: url
+    };
+  }
+  return false;
+}
+
+function changePage(no) {
+  //newPage will be an element in the pages array
+  var i = 0;
+  while (i < pages.length) {
+    pages[i].style.display = "none";
+    if (i == 2) {
+      accountHeader.style.display = "none";
+    }
+    i++;
+  }
+  pages[no].style.display = "block";
+  if (pages[no] == pages[2]) {
+    accountHeader.style.display = 'block';
+  }
+}
+
+function routBitch() {
+  var loc = getLoc();
+  console.log(loc.page);
+  switch (loc.page) {
+    case 'search':
+      changePage(3);
+      break;
+
+    default: 
+      changePage(2);
+      break;
+  }
+}
+
 window.addEventListener('load', function() {
+  routBitch();
+
   // Bind Email and Password Sign in button.
   
   epSignInButton.addEventListener('click', function() {
@@ -414,7 +475,9 @@ window.addEventListener('load', function() {
       passwordError.style.display = "block";
       return;
     }
+    changePage(2);
     firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+      console.log('right in here');
           // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -431,8 +494,9 @@ window.addEventListener('load', function() {
   });
 
   googleSignInButton.addEventListener('click', function(){
+    changePage(2);
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider); 
+    firebase.auth().signInWithPopup(provider);
   });
 
   var user = firebase.auth().currentUser;
@@ -460,25 +524,24 @@ window.addEventListener('load', function() {
   firebase.auth().onAuthStateChanged(function(user) {
     
     if (user) {
+      console.log(user.providerData);
       var providerName = user.providerData[0].providerId;
       console.log(providerName);
       if (providerName === "google.com") {
         console.log('I come from Google');
         addButton.style.display = 'none';
-        splashPage.style.display = 'none';
         // addButton.style.display = 'none';
         writeUserData(user.uid, user.displayName, user.email);
         startDatabaseQueries();
       } 
       else if(providerName === "password") {
         console.log('I come from Password');
-        splashPage.style.display = 'none';
         writeUserData(user.uid, user.displayName, user.email);
         startDatabaseQueries(); 
       } 
     } 
     else {
-        splashPage.style.display = 'block';
+        changePage(1);
       }
   });
 
@@ -489,6 +552,7 @@ window.addEventListener('load', function() {
       console.log("Reporting from submit function");
       // [START single_value_read]
       postOpportunity().then(function() {
+        changePage(pages[2]);
         publicFeedMenuButton.click();
       });
       // [END single_value_read]
