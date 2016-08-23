@@ -19,26 +19,17 @@ var contactNumber = _('contact-number');
 var locality = _('locality');
 var resume = _('resume');
 var workExperience = _('work-experience');
-<<<<<<< HEAD
 var applications = _('applications');
 var applicationButton = _('application-button');
 var applyButton = _('apply-button');
 var applyForm = _('apply');
-=======
->>>>>>> parent of e4a26b9... Improved UX
-
-//Miscellaneous elements
-var mainPage = _('main-page');
 var splashPage = _('splash-page');
-var accountPage = _('account-page');
-var searchPage = _('search-page');
+//Miscellaneous elements
 
-var accountHeader = _('account-header');
-
-var pages = [mainPage, splashPage, accountPage, searchPage];
 
 var googleSignInButton = _('google-sign-in-button');
 var epSignInButton = _('ep-sign-in-button');
+var skipButton = _('skip');
 var addOpportunity = _('add-opportunity');
 var addButton = _('add');
 var publicPostsSection = _('public-posts-list');
@@ -47,13 +38,18 @@ var myFeedMenuButton = _('my-feed');
 var publicFeedMenuButton = _('public-feed');
 var signOutButton = _('sign-out');
 var email = _('email');
+var emailError = _('error-login-email');
 var password = _('userpass');
+var passwordError = _('error-login-password');
+var storageRef = firebase.storage().ref();
 
 function validate(str, min, max) {
-  if (str.length >= min && str.length <= max) {
+  if (str.length > min && str.length <= max) {
+    console.log("validation successful");
     return true;
   }
   return false;
+  
 }
 
 function getTags() {
@@ -107,34 +103,18 @@ function postOpportunity() {
 }
 
 function postApplication(applicationObj, oppId) {
-  var newAppKey = firebase.database().ref().child('applications').push().key;
+  var newAppKey = firebase.database().ref().child('applications').push().key; 
   var emptyObj = {key: newAppKey};
   var updates = {};
-<<<<<<< HEAD
   var userApp = {
     applicationId: newAppKey
   };
   updates['/applications/' + newAppKey] = applicationObj;
   updates['/opp-app/' + oppId + '/' + getUser().uid] = userApp;
-=======
-  updates['/applications/' + newAppKey] = applicationObj;
-  updates['/opp-app/' + oppId + '/' + newAppKey] = emptyObj;
->>>>>>> parent of e4a26b9... Improved UX
   updates['/user-app/' + getUser().uid + '/' + newAppKey] = emptyObj;
   firebase.database().ref().update(updates);
 }
-
-function createOppElement(
-  oppId,
-  title,
-  organisation,
-  description,
-  commitment,
-  address,
-  email,
-  website,
-  checkBundle
-  ) {
+function createOppElement(oppId, title, organisation, description, commitment, address, email, website, checkBundle){
 	var uid = getUser().uid;
   //var oppKey = firebase.database().ref().child('opportunities').push().key; //explain me why is this thing here?
   console.log("Opportunity Created");
@@ -166,29 +146,53 @@ function createOppElement(
                         '<input class="mdl-textfield__input nm" type="text" id="applicant-name">' +
                         '<label class="mdl-textfield__label" for="applicant-name">Name</label>' +
                     '</div>' +
+                    '<div class="error-message-name em" style="display:none;">' +
+                      '<p style="color:red;"> Please enter your name </p>'+
+                    '</div>'+
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
                         '<input class="mdl-textfield__input nm" type="text" id="applicant-email">' +
                         '<label class="mdl-textfield__label" for="applicant-email">Email</label>' +
                     '</div>' +
+                    '<div class="error-message-email em" style="display:none;" >' +
+                      '<p style="color:red;"> Please enter your email </p>'+
+                    '</div>'+
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
                         '<input class="mdl-textfield__input nm" type="text" id="applicant-school">' +
                         '<label class="mdl-textfield__label" for="applicant-school">School</label>' +
                     '</div>' +
+                    '<div class="error-message-school em" style="display:none;">' +
+                      '<p style="color:red;"> Please enter your school </p>'+
+                    '</div>'+
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
                         '<input class="mdl-textfield__input cb" type="text" id="applicant-contact-number">' +
                         '<label class="mdl-textfield__label" for="applicant-contact-number">Contact Number</label>' +
                     '</div>' +
+                    '<div class="error-message-contact em" style="display:none;">' +
+                      '<p style="color:red;"> Please fill this field </p>'+
+                    '</div>'+
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
                         '<input class="mdl-textfield__input cb" type="text" id="applicant-locality">' +
                         '<label class="mdl-textfield__label" for="applicant-locality">Locality</label>' +
                     '</div>' +
+                    '<div class="error-message-locality em" style="display:none;">' +
+                      '<p style="color:red;"> Please fill this field </p>'+
+                    '</div>'+
                     '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">' +
                         '<input  type="text" rows= "3" class="mdl-textfield__input cb" type="text" id="applicant-work-experience">' +
                         '<label class="mdl-textfield__label" for="applicant-work-experience">Work Experience</label>' +
                     '</div>' +
-                    '<input type="file" id="file" name="file" class="file apply-button cb"/><br> <!-- Shows up anyway / Fix this -->' +
+                    '<div class="error-message-experience em" style="display:none;">' +
+                      '<p style="color:red;"> Please fill this field </p>'+
+                    '</div>'+
+                    '<input type="file" id="file" name="file" class="file apply-button cb"/><br>' +
+                    '<div class="error-message-resume em" style="display:none;">' +
+                      '<p style="color:red;"> Please upload your resume </p>'+
+                    '</div>'+
                     '<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect apply-button"> Apply</button>' + 
                   '</form>' +
+                '</div>' +
+                '<div class="mdl-tabs__panel" id = "applications" style = "display:none;">' + 
+                //we'll dynamically add divs containing titles like "Application from XYZ, clicking on the div will route to a new page with applicant details and further actions."
                 '</div>' +
                 '<div class="mdl-card__menu">'+
                         '<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">'+
@@ -198,9 +202,9 @@ function createOppElement(
                 '<div class=" mdl-card__actions mdl-tabs__tab-bar">' +
                   '<a href="#about-panel" class="mdl-tabs__tab is-active">About </a>' +
                   '<a href="#more-info" class="mdl-tabs__tab">More</a>' +
-                  '<a href="#apply" class="mdl-tabs__tab">Apply</a>' +
+                  '<a href="#apply" id = "apply-button" class="mdl-tabs__tab">Apply</a>' +
+                  '<a href="#applications" id = "application-button" class="mdl-tabs__tab" style="display:none;">Applications</a>' +
                 '</div>' + 
-            '</div>'
             '</div>';
 	var div = document.createElement('div');
 	div.innerHTML = html;
@@ -213,6 +217,7 @@ function createOppElement(
   oppElement.getElementsByClassName('email')[0].innerText = email;
   oppElement.getElementsByClassName('website')[0].innerText = website;
   componentHandler.upgradeElements(oppElement);
+
 
   var checkBundleElements = [
     oppElement.getElementsByClassName('cb')[0],
@@ -245,21 +250,28 @@ function createOppElement(
     var name = oppElement.getElementsByClassName('nm')[0].value;
     var email = oppElement.getElementsByClassName('nm')[1].value;
     var school = oppElement.getElementsByClassName('nm')[2].value;
-
+    var errorName = oppElement.getElementsByClassName('em')[0];
+    var errorEmail = oppElement.getElementsByClassName('em')[1];
+    var errorSchool = oppElement.getElementsByClassName('em')[2];
+    // Handle inline validation for optional fields
+    var errorContact = oppElement.getElementsByClassName('em')[3];
+    var errorLocality = oppElement.getElementsByClassName('em')[4];
+    var errorExperience = oppElement.getElementsByClassName('em')[5];
+    // Resume handling is probably done
+    var errorResume = oppElement.getElementsByClassName('em')[6];
+    var formComplete = true;
     if (validate(name, 2, 50) === false) {
-      alert('Sorry!, get a shorter name or a bigger name(2-50 chararcters) or else, u just ain\'t getting this internship'); //we can change this text
-      return;
+      errorName.style.display = 'block'; //we can change this text
+      formComplete = false; 
     }
-
-    if (validate(email, 0, 50) === false) {
-      alert('Sorry!, hold ur horses, get a small email(50 chararcters)'); //we can change this text
-      return;
+    if (validate(email, 1, 50) === false) {
+      errorEmail.style.display = 'block'; //we can change this text
+      formComplete = false;
     }
     email = (email.length < 1) ? '-' : email;
-
-    if (validate(school, 0, 50) === false) {
-      alert('wooh! ur school has a freaking big name, don\'t freak out the people who give u opportunities(U ain\'t getting this internship 50 chararcters)'); //we can change this text
-      return;
+    if (validate(school, 1, 50) === false) {
+      errorSchool.style.display = 'block'; //we can change this text
+      formComplete = false;
     }
     school = (school.length < 1) ? '-' : school;
 
@@ -271,7 +283,8 @@ function createOppElement(
       if (checkBundle[i] === true) {
         var val = checkBundleElements[i].value;
         if (validate(val, 0, 50) === false) {
-          alert('more than 50 chars in ' + checkBundleElements[i].parentElement.getElementsByTagName('label')[0].innerHTML + ' field');
+          errorResume.style.display = 'block';
+          formComplete = false;
           return;
         }
         checkBundleElements[i].value = (val.length < 1) ? '-': val;
@@ -283,7 +296,8 @@ function createOppElement(
     //i is 3 by now, congracts i, u came a long way
     if (checkBundle[i] === true) {//handling the file shit
       if (checkBundleElements[i].files.length < 1) {
-        alert('chose a file for resume upload');
+        errorResume.style.display = 'block';
+        formComplete = false;
         return;
       }
 
@@ -313,7 +327,6 @@ function createOppElement(
       firebase.database().ref().update(updates);
 
     }
-<<<<<<< HEAD
     if (formComplete === true) {
       var appRef = firebase.database().ref('/opp-app/' + oppId);
       appRef.once('value').then(function(snapshot){
@@ -339,51 +352,23 @@ function createOppElement(
       
       
     }
-=======
-  
-    var application = {
-      name: name,
-      email: email,
-      school: school,
-      contactNumber: checkBundleElements[0].value,
-      locality: checkBundleElements[1].value,
-      workExperience: checkBundleElements[2].value,
-      resume: fileName
-    };
-    postApplication(application, oppId);
-    
->>>>>>> parent of e4a26b9... Improved UX
   }, false);
 
+    
   return oppElement;
   
 }
+
+
 
 function startDatabaseQueries() {
 	var myUserId = getUser().uid;
 	var recentPostsRef = firebase.database().ref('opportunities').limitToLast(100);
 	var userPostsRef = firebase.database().ref('user-opp/' + myUserId);
+  
   console.log("Entering the dragon");
 
-  /* function fetchByKey(key, sectionElement) {
-    var ref = firebase.database().ref('opportunities/' + key);
-    ref.on('value', function(snapshot){
-      var data = snapshot.val();
-      var containerElement = sectionElement.getElementsByClassName('posts-container')[0];
-      containerElement.insertBefore(
-        createOppElement(
-          data.title,
-          data.organisation,
-          data.description,
-          data.commitment,
-          data.address,
-          data.email,
-          data.website
-        ), 
-        containerElement.firstChild);
-      console.log("I fetched posts");
-    });
-  } */
+ 
 
   var fetchPosts = function(postsRef, sectionElement) {
     postsRef.on('child_added', function(data) {
@@ -412,6 +397,7 @@ function startDatabaseQueries() {
   };
 	fetchPosts(recentPostsRef, publicPostsSection);
   fetchPosts(userPostsRef, myPostsSection);
+
 }
 
 function getUser() {
@@ -426,58 +412,11 @@ function writeUserData(userId, name, email) {
   console.log("I wrote user data")
 }
 
-function getLoc() {
-  var routLoc = window.location.hash;
-  console.log(routLoc);
-  if (routLoc.length > 0) {
-    routLoc = routLoc.slice(1, routLoc.length).split('/');
-    var page = routLoc[0];
-    var url = [];
-    var i = 1;
-    while (i < routLoc.length) {
-      url.push(routLoc[i])
-      i++;
-    }
-    return {
-      page: page,
-      url: url
-    };
-  }
-  return false;
-}
 
-function changePage(no) {
-  //newPage will be an element in the pages array
-  var i = 0;
-  while (i < pages.length) {
-    pages[i].style.display = "none";
-    if (i == 2) {
-      accountHeader.style.display = "none";
-    }
-    i++;
-  }
-  pages[no].style.display = "block";
-  if (pages[no] == pages[2]) {
-    accountHeader.style.display = 'block';
-  }
-}
 
-function routBitch() {
-  var loc = getLoc();
-  console.log(loc.page);
-  switch (loc.page) {
-    case 'search':
-      changePage(3);
-      break;
-
-    default: 
-      changePage(2);
-      break;
-  }
-}
 
 window.addEventListener('load', function() {
-  routBitch();
+  
 
   // Bind Email and Password Sign in button.
   
@@ -485,14 +424,14 @@ window.addEventListener('load', function() {
     var email = document.getElementById('email').value;
     var password = document.getElementById('userpass').value;
     if (email.length < 4) {
-        alert('Please enter an email address.');
+        emailError.style.display = "block";
         return;
     }
     if (password.length < 4) {
-      alert('Please enter a password.');
+      passwordError.style.display = "block";
       return;
     }
-    changePage(2);
+    
     firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
       console.log('right in here');
           // Handle Errors here.
@@ -500,7 +439,7 @@ window.addEventListener('load', function() {
       var errorMessage = error.message;
           // [START_EXCLUDE]
       if (errorCode === 'auth/wrong-password') {
-        alert('Wrong password.');
+        passwordError.style.display = "block";
       } else {
         console.error(error);
       }
@@ -511,14 +450,12 @@ window.addEventListener('load', function() {
   });
 
   googleSignInButton.addEventListener('click', function(){
-    changePage(2);
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider);
   });
 
   var user = firebase.auth().currentUser;
  
-<<<<<<< HEAD
   skipButton.addEventListener('click', function(){
     firebase.auth().signInAnonymously().then(function(user) {
         console.log('Anonymous Sign In Success', user);
@@ -530,13 +467,11 @@ window.addEventListener('load', function() {
         console.error('Anonymous Sign In Error', error);
       });
   });
-=======
-  
->>>>>>> parent of e4a26b9... Improved UX
   
   // Bind sign out button
   signOutButton.addEventListener('click', function(){
     firebase.auth().signOut().then(function() {
+      splashPage.style.display = 'block';
       console.log('Signed Out');
       email.value = '';
       password.value = '';
@@ -554,6 +489,7 @@ window.addEventListener('load', function() {
       console.log(providerName);
       if (providerName === "google.com") {
         console.log('I come from Google');
+        splashPage.style.display = 'none';
         addButton.style.display = 'none';
         // addButton.style.display = 'none';
         writeUserData(user.uid, user.displayName, user.email);
@@ -561,14 +497,11 @@ window.addEventListener('load', function() {
       } 
       else if(providerName === "password") {
         console.log('I come from Password');
+        splashPage.style.display = 'none';
         writeUserData(user.uid, user.displayName, user.email);
         startDatabaseQueries(); 
       } 
     } 
-    else {
-        changePage(1);
-      }
-
   });
 
   // Saves message on form submit.
@@ -578,7 +511,6 @@ window.addEventListener('load', function() {
       console.log("Reporting from submit function");
       // [START single_value_read]
       postOpportunity().then(function() {
-        changePage(pages[2]);
         publicFeedMenuButton.click();
       });
       // [END single_value_read]
