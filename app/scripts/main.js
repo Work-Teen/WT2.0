@@ -421,6 +421,7 @@ function writeUserData(userId, name, email) {
 
 function getLoc() {
   var routLoc = window.location.hash;
+  console.log(routLoc);
   if (routLoc.length > 0) {
     routLoc = routLoc.slice(1, routLoc.length).split('/');
     var page = routLoc[0];
