@@ -84,6 +84,7 @@ function postOpportunity() {
   console.log("I worked in posting");
 	//writing data to public and user feed
 	var updates = {};
+
 	updates['/opportunities/' + newOppKey] = oppData;
   updates['/user-opp/' + getUser().uid + '/' + newOppKey] = oppData;
 
@@ -95,8 +96,11 @@ function postApplication(applicationObj, oppId) {
   var newAppKey = firebase.database().ref().child('applications').push().key;
   var emptyObj = {key: newAppKey};
   var updates = {};
+  var userApp = {
+    application_id: newAppKey
+  }
   updates['/applications/' + newAppKey] = applicationObj;
-  updates['/opp-app/' + oppId + '/' + newAppKey] = emptyObj;
+  updates['/opp-app/' + oppId + '/' + getUser().uid] = emptyObj;
   updates['/user-app/' + getUser().uid + '/' + newAppKey] = emptyObj;
   firebase.database().ref().update(updates);
 }
