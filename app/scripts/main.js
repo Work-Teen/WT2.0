@@ -96,11 +96,16 @@ function postApplication(applicationObj, oppId) {
   var newAppKey = firebase.database().ref().child('applications').push().key;
   var emptyObj = {key: newAppKey};
   var updates = {};
+
   var userApp = {
     application_id: newAppKey
   }
+  
+  updates['/opp-app/' + oppId + '/' + getUser().uid] = userApp;
+
   updates['/applications/' + newAppKey] = applicationObj;
-  updates['/opp-app/' + oppId + '/' + getUser().uid] = emptyObj;
+  updates['/opp-app/' + oppId + '/' + newAppKey] = emptyObj;
+
   updates['/user-app/' + getUser().uid + '/' + newAppKey] = emptyObj;
   firebase.database().ref().update(updates);
 }
