@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 'use strict';
 //life easy funcs
 function _(id) {
@@ -493,4 +491,4 @@ window.addEventListener('load', function() {
   };
   publicFeedMenuButton.onclick();
 }, false);
->>>>>>> parent of e4a26b9... Improved UX
+
