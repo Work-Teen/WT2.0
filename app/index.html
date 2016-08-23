@@ -1,0 +1,231 @@
+<<<<<<< HEAD
+=======
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WorkTeen</title>
+	<meta charset="utf-8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta name="description" content="Prototyping database addition for WT2.0">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
+  	<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.red-deep_orange.min.css" />
+
+  	<script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../scripts/tag-it.js"></script>
+  	<link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="jquery.tagit.css">
+    <link rel="stylesheet" href="tagit.ui-zendesk.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">	
+	<!-- Home Page -->
+	<section id="splash-page">
+    <div class="signup-box">
+            <div class="mdl-grid splash-grid ">
+              
+              <div class="mdl-cell mdl-cell--4-offset mdl-cell--4-col">
+                  <div class="mdl-card mdl-shadow--6dp">
+                            
+                                <h2 class="splash-card-title">WorkTeen.</h2>
+                                <h4 class="splash-card-subtitle">Learn. Create. Serve.</h4>
+                            
+                        <div class="mdl-card__supporting-text">
+                                <form action="#">
+                                    <div class="mdl-textfield mdl-js-textfield">
+                                        <input class="mdl-textfield__input" type="text" id="email" />
+                                        <label class="mdl-textfield__label" for="username">Email</label>
+                                    </div>
+                                    <div class="mdl-textfield mdl-js-textfield">
+                                        <input class="mdl-textfield__input" type="password" id="userpass" />
+                                        <label class="mdl-textfield__label" for="userpass">Password</label>
+                                    </div>
+                                    <button id = "ep-sign-in-button" class="mdl-button mdl-js-button  mdl-js-ripple-effect login-button">Log in</button>
+                                    <button id = "fb-sign-in-button" class="mdl-button mdl-js-button mdl-button--raised mdl-color--blue-900 fb-button">
+                                  Sign in with <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                                  </button>
+                                  <button id = "google-sign-in-button" class="mdl-button mdl-js-button mdl-button--raised mdl-color--red-500  g-button">
+                                  Sign in with <i class="fa fa-google" aria-hidden="true"></i>
+                                  </button>
+                                </form>
+                            </div>
+                            <div class="skip">
+                                <a href="#"><p>Skip</p></a>
+                            </div>
+                            <div class="other-links">
+                              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                About Us 
+                              </a>
+                              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                Blog 
+                              </a>
+                              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                Privacy
+                              </a>
+                            </div>
+                        </div>
+                      </div>
+            </div>
+    </div> <!-- Sign Up Box -->
+	</section>
+	<!-- Home Page Ends -->
+
+	<!-- Account Page Header -->
+	<header class="header mdl-layout__header mdl-color-text--white">
+      <div class="mdl-layout__header-row">
+        <h3> <i class="material-icons">group</i> WorkTeen </h3>
+        <div class="mdl-layout-spacer"></div>
+        
+        <button id = "menu" class="mdl-button mdl-js-button mdl-button--icon">
+          <i class="material-icons">more_vert</i>
+        </button>
+        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+      for="menu">
+          <li class="mdl-menu__item"> <i class="material-icons">help</i> Help </li>
+          <li class="mdl-menu__item" id="sign-out"><i class="material-icons">exit_to_app</i> Sign Out</li> 
+        </ul>
+      </div>
+    	<div class="tab mdl-layout__header-row">
+        
+    		<div class="mdl-tab">
+          
+    			<div id = "public-feed" class="mdl-layout__tab is-active mdl-button mdl-js-button mdl-js-ripple-effect">
+    				Feed
+    			</div>
+          
+
+    			<div id = "my-feed" class="mdl-layout__tab mdl-button mdl-js-button mdl-js-ripple-effect">
+    				Home
+    			</div>
+					
+  				<div id = "profile-page" class="mdl-layout__tab mdl-button mdl-js-button mdl-js-ripple-effect">
+      			Profile
+      		</div>
+          
+    			<button class="mdl-button mdl-js-button mdl-button--fab mdl-color--amber-400 mdl-shadow--4dp mdl-js-ripple-effect" id="add">
+          			<i class="material-icons">add_box</i>
+        	</button>  
+    		</div>    
+    	</div>
+	</header>
+	<!-- Account Page Header Ends -->
+	<!-- Opportunity Form -->
+	<main class="mdl-layout__content">
+
+	<section class="mdl-grid content" id = "add-opportunity" style="display:none;">
+		<div class="mdl-cell mdl-cell--12-col">
+			<div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet
+                  mdl-cell--12-col-desktop">
+				<div class="mdl-card_title  mdl-color-text--red-400">
+					<h2 class="mdl-card__title-text">Post a new opportunity</h2>
+				</div>
+				<div class="mdl-card__supporting-text">
+					<form id = "opportunity-form" action="#">
+						        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  			<input class="mdl-textfield__input" type="text" id="new-opportunity-title">
+                  			<label class="mdl-textfield__label" for="new-opportunity-title">Title
+                  			</label>
+                		</div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-organisation">
+                        <label class="mdl-textfield__label" for="new-opportunity-organisation">Organisation
+                        </label>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-address">
+                        <label class="mdl-textfield__label" for="new-opportunity-address">Address
+                        </label>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-commitment">
+                        <label class="mdl-textfield__label" for="new-opportunity-commitment">Commitment
+                        </label>
+                    </div> 
+                		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  			<input class="mdl-textfield__input" type="text" id="new-opportunity-description">
+                  			<label class="mdl-textfield__label" for="new-opportunity-description">Description
+                  			</label>
+                		</div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-email">
+                        <label class="mdl-textfield__label" for="new-opportunity-email">Contact Email
+                        </label>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-website">
+                        <label class="mdl-textfield__label" for="new-opportunity-website">Website/Facebook Page
+                        </label>
+                    </div>
+                   
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-tags">
+                        <label class="mdl-textfield__label" for="new-opportunity-tags">Activity Tags
+                        </label>
+                    </div>
+                    <h5> Please select optional applicant details that are required in the form. </h5>
+                    <label for="contact-number" class="mdl-checkbox mdl-js-checkbox">
+                      <input type="checkbox" id="contact-number" class="mdl-checkbox__input">
+                      <span class="mdl-checkbox__label">Contact Number</span>
+                    </label>
+                    <label for="locality" class="mdl-checkbox mdl-js-checkbox">
+                      <input type="checkbox" id="locality" class="mdl-checkbox__input">
+                      <span class="mdl-checkbox__label">Locality</span>
+                    </label>
+                    <label for="resume" class="mdl-checkbox mdl-js-checkbox">
+                      <input type="checkbox" id="resume" class="mdl-checkbox__input">
+                      <span class="mdl-checkbox__label">Resumé</span>
+                    </label>
+                    <label for="work-experience" class="mdl-checkbox mdl-js-checkbox">
+                      <input type="checkbox" id="work-experience" class="mdl-checkbox__input">
+                      <span class="mdl-checkbox__label">Work Experience</span>
+                    </label>
+                		<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect apply-button">
+                  			Add opportunity.
+                		</button> 
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="mdl-grid content" id="public-posts-list" style="display:none">
+    <div class="posts-container mdl-cell mdl-cell--8-col mdl-cell--2-offset mdl-grid">
+    </div>
+  </section>
+  <section class="mdl-grid content" id="my-posts-list" style="display:none">
+    <div class="posts-container mdl-cell mdl-cell--8-col mdl-cell--2-offset mdl-grid">
+    </div>
+  </section>
+  <!-- Opportunity Information Section -->
+  <!-- Opportunity Information Section -->
+  <!-- Application Form -->
+  
+  <!-- Application Form -->
+	</main>
+</div>
+<script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDifK757qQOwlFe0GEH0854oVA_oextAdo",
+    authDomain: "workteenv2.firebaseapp.com",
+    databaseURL: "https://workteenv2.firebaseio.com",
+    storageBucket: "workteenv2.appspot.com",
+  };
+  firebase.initializeApp(config);
+</script>
+<script type="text/javascript">
+$("#new-opportunity-tags").tagit({
+    availableTags: ["c++", "java", "php", "javascript", "ruby", "python", "c"],
+    autocomplete: {delay: 0, minLength: 2}
+});
+var starCountRef = firebase.database().ref().child('user-opp');
+</script>
+<script src="../scripts/main.js"></script>
+
+</body>
+</html>
+>>>>>>> parent of e4a26b9... Improved UX

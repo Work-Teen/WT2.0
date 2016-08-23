@@ -5,6 +5,9 @@
 [debug] Node Version: v4.4.2
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of e4a26b9... Improved UX
 =======
 >>>>>>> parent of e4a26b9... Improved UX
 [debug] Time:         Tue Aug 09 2016 18:48:41 GMT+0530 (IST)
@@ -23,6 +26,7 @@
 [debug] Node Version: v4.4.2
 [debug] Time:         Tue Aug 09 2016 19:16:25 GMT+0530 (IST)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 [debug] Time:         Thu Aug 18 2016 10:12:00 GMT+0530 (IST)
 >>>>>>> parent of 8d99aa0... Prevented multiple applications
@@ -40,6 +44,8 @@
 [debug] Platform:     darwin
 [debug] Node Version: v4.4.2
 [debug] Time:         Tue Aug 23 2016 12:56:31 GMT+0530 (IST)
+=======
+>>>>>>> parent of e4a26b9... Improved UX
 =======
 >>>>>>> parent of e4a26b9... Improved UX
 [debug] ----------------------------------------------------------------------
