@@ -17,9 +17,7 @@
   	<link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="jquery.tagit.css">
     <link rel="stylesheet" href="tagit.ui-zendesk.css">
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
 </head>
 <body>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -47,15 +45,9 @@
                                         <input class="mdl-textfield__input" type="text" id="email" />
                                         <label class="mdl-textfield__label" for="username">Email</label>
                                     </div>
-                                    <div id="error-login-email" style="display:none;">
-                                        <p style="color:red;"> Please enter your email </p>
-                                    </div>
                                     <div class="mdl-textfield mdl-js-textfield">
                                         <input class="mdl-textfield__input" type="password" id="userpass" />
                                         <label class="mdl-textfield__label" for="userpass">Password</label>
-                                    </div>
-                                    <div id="error-login-password" style="display:none;">
-                                        <p style="color:red;"> Email/password was incorrect </p>
                                     </div>
                                     <button id = "ep-sign-in-button" class="mdl-button mdl-js-button  mdl-js-ripple-effect login-button">Log in</button>
                                     <button id = "fb-sign-in-button" class="mdl-button mdl-js-button mdl-button--raised mdl-color--blue-900 fb-button">
@@ -66,8 +58,13 @@
                                   </button>
                                 </form>
                             </div>
+<<<<<<< HEAD
                             <div class="skip" id = "skip">
                                 <a href="#" onclick="changePage(2)"><p>Skip</p></a>
+=======
+                            <div class="skip">
+                                <a href="#"><p>Skip</p></a>
+>>>>>>> parent of e4a26b9... Improved UX
                             </div>
                             <div class="other-links">
                               <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
@@ -129,6 +126,7 @@
   <div id="account-page" style="display: none;">
   	<main class="mdl-layout__content">
 
+<<<<<<< HEAD
   	<section class="mdl-grid content" id = "add-opportunity">
   		<div class="mdl-cell mdl-cell--12-col">
   			<div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet
@@ -212,6 +210,91 @@
       <div class="posts-container mdl-cell mdl-cell--2-offset-desktop mdl-cell--8-col-desktop mdl-cell--12-col-phone mdl-grid post">
       </div>
     </section>
+=======
+	<section class="mdl-grid content" id = "add-opportunity" style="display:none;">
+		<div class="mdl-cell mdl-cell--12-col">
+			<div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet
+                  mdl-cell--12-col-desktop">
+				<div class="mdl-card_title  mdl-color-text--red-400">
+					<h2 class="mdl-card__title-text">Post a new opportunity</h2>
+				</div>
+				<div class="mdl-card__supporting-text">
+					<form id = "opportunity-form" action="#">
+						        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  			<input class="mdl-textfield__input" type="text" id="new-opportunity-title">
+                  			<label class="mdl-textfield__label" for="new-opportunity-title">Title
+                  			</label>
+                		</div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-organisation">
+                        <label class="mdl-textfield__label" for="new-opportunity-organisation">Organisation
+                        </label>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-address">
+                        <label class="mdl-textfield__label" for="new-opportunity-address">Address
+                        </label>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-commitment">
+                        <label class="mdl-textfield__label" for="new-opportunity-commitment">Commitment
+                        </label>
+                    </div> 
+                		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  			<input class="mdl-textfield__input" type="text" id="new-opportunity-description">
+                  			<label class="mdl-textfield__label" for="new-opportunity-description">Description
+                  			</label>
+                		</div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-email">
+                        <label class="mdl-textfield__label" for="new-opportunity-email">Contact Email
+                        </label>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-website">
+                        <label class="mdl-textfield__label" for="new-opportunity-website">Website/Facebook Page
+                        </label>
+                    </div>
+                   
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="new-opportunity-tags">
+                        <label class="mdl-textfield__label" for="new-opportunity-tags">Activity Tags
+                        </label>
+                    </div>
+                    <h5> Please select optional applicant details that are required in the form. </h5>
+                    <label for="contact-number" class="mdl-checkbox mdl-js-checkbox">
+                      <input type="checkbox" id="contact-number" class="mdl-checkbox__input">
+                      <span class="mdl-checkbox__label">Contact Number</span>
+                    </label>
+                    <label for="locality" class="mdl-checkbox mdl-js-checkbox">
+                      <input type="checkbox" id="locality" class="mdl-checkbox__input">
+                      <span class="mdl-checkbox__label">Locality</span>
+                    </label>
+                    <label for="resume" class="mdl-checkbox mdl-js-checkbox">
+                      <input type="checkbox" id="resume" class="mdl-checkbox__input">
+                      <span class="mdl-checkbox__label">Resumé</span>
+                    </label>
+                    <label for="work-experience" class="mdl-checkbox mdl-js-checkbox">
+                      <input type="checkbox" id="work-experience" class="mdl-checkbox__input">
+                      <span class="mdl-checkbox__label">Work Experience</span>
+                    </label>
+                		<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect apply-button">
+                  			Add opportunity.
+                		</button> 
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="mdl-grid content" id="public-posts-list" style="display:none">
+    <div class="posts-container mdl-cell mdl-cell--8-col mdl-cell--2-offset mdl-grid">
+    </div>
+  </section>
+  <section class="mdl-grid content" id="my-posts-list" style="display:none">
+    <div class="posts-container mdl-cell mdl-cell--8-col mdl-cell--2-offset mdl-grid">
+    </div>
+  </section>
+>>>>>>> parent of e4a26b9... Improved UX
   <!-- Opportunity Information Section -->
   <!-- Opportunity Information Section -->
   <!-- Application Form -->
@@ -238,8 +321,6 @@ $("#new-opportunity-tags").tagit({
 });
 var starCountRef = firebase.database().ref().child('user-opp');
 </script>
-<script src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
 <script src="../scripts/main.js"></script>
 
 </body>
