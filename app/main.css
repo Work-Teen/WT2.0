@@ -105,6 +105,12 @@ h3 {
 }
 .mdl-layout__tab{
     width:25%;
+    text-transform: none;
+    font-family: 'Karla';
+    font-size:18px;
+}
+.mdl-layout__tab:.is-active{
+    border-bottom-color: white;
 }
 @media screen and (max-width: 840px) {
     .header .mdl-layout__header-row.titlebar {
@@ -191,8 +197,11 @@ h3 {
     top:570px;
     z-index: 998;
     font-size:40px;
+    margin-bottom:30px;
 }
-
+h3, h4{
+    font-family: 'Karla', sans-serif;
+}
 @media screen and (max-width: 840px) {
     #add {
         position: fixed;
