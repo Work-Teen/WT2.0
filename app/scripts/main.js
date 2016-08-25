@@ -24,7 +24,16 @@ var applicationButton = _('application-button');
 var applyButton = _('apply-button');
 var applyForm = _('apply');
 //Miscellaneous elements
+var mainPage = _('main-page');
 var splashPage = _('splash-page');
+var accountPage = _('account-page');
+var searchPage = _('search-page');
+var opportunityPage = _('opportunity-page');
+
+var accountHeader = _('account-header');
+
+var pages = [mainPage, splashPage, accountPage, searchPage, opportunityPage];
+
 var googleSignInButton = _('google-sign-in-button');
 var epSignInButton = _('ep-sign-in-button');
 var skipButton = _('skip');
@@ -348,7 +357,32 @@ function createOppElement(oppId, title, organisation, description, commitment, a
   
 }
 
+function fetchPosts(postsRef, sectionElement) {
+  postsRef.on('child_added', function(data) {
+    var containerElement = sectionElement.getElementsByClassName('posts-container')[0];
+    var dat = data.val();
+    var checkBundle = [
+      dat.contactNumber,
+      dat.locality,
+      dat.workExperience,
+      dat.resume
+    ];
 
+    containerElement.insertBefore(
+      
+      createOppElement(
+        data.key,
+        data.val().title,
+        data.val().organisation,
+        data.val().description,
+        data.val().commitment,
+        data.val().address,
+        data.val().email,
+        data.val().website,
+        checkBundle), containerElement.firstChild);
+    console.log("I fetched posts");
+  });
+}
 
 function startDatabaseQueries() {
   var myUserId = getUser().uid;
@@ -357,33 +391,6 @@ function startDatabaseQueries() {
   
   console.log("Entering the dragon");
 
- 
-
-  var fetchPosts = function(postsRef, sectionElement) {
-    postsRef.on('child_added', function(data) {
-      var containerElement = sectionElement.getElementsByClassName('posts-container')[0];
-      var dat = data.val();
-      var checkBundle = [
-        dat.contactNumber,
-        dat.locality,
-        dat.workExperience,
-        dat.resume
-      ];
-      containerElement.insertBefore(
-        
-        createOppElement(
-          data.key,
-          data.val().title,
-          data.val().organisation,
-          data.val().description,
-          data.val().commitment,
-          data.val().address,
-          data.val().email,
-          data.val().website,
-          checkBundle), containerElement.firstChild);
-      console.log("I fetched posts");
-    });
-  };
   fetchPosts(recentPostsRef, publicPostsSection);
   fetchPosts(userPostsRef, myPostsSection);
 
@@ -400,8 +407,59 @@ function writeUserData(userId, name, email) {
   });
   console.log("I wrote user data")
 }
+
+function changePage(no) {
+  //no will be an element[no] in the pages array
+  var i = 0;
+  while (i < pages.length) {
+    pages[i].style.display = "none";
+    if (i == 2) {
+      accountHeader.style.display = "none";
+    }
+    i++;
+  }
+  pages[no].style.display = "block";
+  if (pages[no] == pages[2]) {
+    accountHeader.style.display = 'block';
+  }
+}
+
+function route() {
+  crossroads.addRoute('opportunity/{key}', function(key) {
+    changePage(4);
+    var page = pages[4];
+    var oppRef = firebase.database().ref('opportunities/' + key);
+    oppRef.on('value', function(snapshot) {
+      console.log(snapshot.val());
+      var containerElement = page.getElementsByClassName('posts-container')[0];
+      var dat = snapshot.val();
+      var checkBundle = [
+        dat.contactNumber,
+        dat.locality,
+        dat.workExperience,
+        dat.resume
+      ];
+
+      containerElement.insertBefore(
+        
+      createOppElement(
+        dat.key,
+        dat.title,
+        dat.organisation,
+        dat.description,
+        dat.commitment,
+        dat.address,
+        dat.email,
+        dat.website,
+        checkBundle), containerElement.firstChild);
+      });
+  });
+  crossroads.parse(window.location.hash.split('#')[1]);
+}
+
 window.addEventListener('load', function() {
   // Bind Email and Password Sign in button.
+  changePage(1);
   
   epSignInButton.addEventListener('click', function() {
     var email = document.getElementById('email').value;
@@ -439,6 +497,7 @@ window.addEventListener('load', function() {
  
   skipButton.addEventListener('click', function(){
     firebase.auth().signInAnonymously().then(function(user) {
+        changePage(2);
         console.log('Anonymous Sign In Success', user);
       }).catch(function(error) {
         console.error('Anonymous Sign In Error', error);
@@ -465,20 +524,23 @@ window.addEventListener('load', function() {
       if (providerName === "google.com") {
         console.log('I come from Google');
         addButton.style.display = 'none';
-        splashPage.style.display = 'none';
+        changePage(2);
+        route();
         // addButton.style.display = 'none';
         writeUserData(user.uid, user.displayName, user.email);
         startDatabaseQueries();
       } 
       else if(providerName === "password") {
         console.log('I come from Password');
-        splashPage.style.display = 'none';
+        changePage(2);
+        route();
         writeUserData(user.uid, user.displayName, user.email);
         startDatabaseQueries(); 
       } 
     } 
     else {
-        splashPage.style.display = 'block';
+        changePage(1);
+        route();
       }
   });
 
@@ -522,3 +584,8 @@ window.addEventListener('load', function() {
   };
   publicFeedMenuButton.onclick();
 }, false);
+
+/*"opportunities": {
+      ".read": "auth!== null",
+      ".write": "auth !== null && auth.provider === 'password'"
+    }*/
