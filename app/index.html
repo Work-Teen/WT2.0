@@ -15,7 +15,7 @@
     <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
-    
+    <script type="text/javascript" src="../scripts/polyfill-dialog.js"></script>
     <script src="../scripts/tag-it.js"></script>
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="form.css">
@@ -26,6 +26,72 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
 </head>
 <body>
+<!--dialog needs to be immediate child of body for polyfill to work-->
+              <dialog id="search-dialog" class="mdl-dialog">
+                    <h4 class="mdl-dialog__title">Search</h4>
+                    <div>
+                      <div class="mdl-dialog__content mdl-grid">
+                        <div id="custom-1" class="mdl-grid mdl-cell mdl-cell--12-col">
+                            <div class="mdl-cell mdl-cell--5-col custom-div">I want to</div> 
+                            <div class="mdl-cell mdl-cell--7-col mdl-textfield mdl-js-textfield getmdl-select custom-inputfield">
+                              <input type="text" class="mdl-textfield__input" value="Volunteer" type="text" id="interest" readonly tabIndex="-1" data-val="1"/>
+                              <label id="custom-label" class="mdl-textfield__label" for="interest">Any interest</label>
+                                <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="interest">
+                                  <li class="mdl-menu__item" data-val="1">Volunteer</li>
+                                  <li class="mdl-menu__item" data-val="2">Intern</li>
+                                  <li class="mdl-menu__item" data-val="3">Research</li>
+                                  <li class="mdl-menu__item" data-val="4">Participate</li>
+                                </ul>
+                            </div>
+                          </div>
+                          <div id="custom-2" class="mdl-cell mdl-cell--5-col">                    
+                            <div class="mdl-grid custom-grid">
+                              <div class="mdl-cell mdl-cell--2-col custom-div">in</div>
+                              <div class="mdl-cell mdl-cell--8-col mdl-textfield mdl-js-textfield inputfield custom-ip">
+                                  <input class="mdl-textfield__input" type="text" id="city">
+                                  <label id="custom-label" class="mdl-textfield__label" for="sample1">City..</label>
+                              </div>
+                           </div>
+                          </div>
+                            
+                           <div id="custom-3" class="mdl-cell mdl-cell--7-col"> 
+                              <div class="mdl-grid custom-grid">
+                                  <div class="mdl-cell mdl-cell--2-col custom-div">for</div>
+                                  <div class="mdl-cell mdl-cell--10-col mdl-textfield mdl-js-textfield getmdl-select custom-inputfield">
+                                      <input type="text" class="mdl-textfield__input" value="Any organization" type="text" id="organization-list" readonly tabIndex="-1" data-val="1"/>
+                                      <label class="custom-label mdl-textfield__label" for="country">Any Organization</label>
+                                        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="organization-list">
+                                          <li class="mdl-menu__item" data-val="1">Organization1</li>
+                                          <li class="mdl-menu__item" data-val="2">Organization2</li>
+                                          <li class="mdl-menu__item" data-val="3">Organization3</li>
+                                          <li class="mdl-menu__item" data-val="4">Organization4</li>
+                                        </ul>
+                                    </div>
+                              </div>
+                            </div>
+                        
+                            <div id="hour" class="mdl-cell mdl-cell--12-col">
+                              <div class="mdl-grid">
+                                <div id="custom-4" class="mdl-cell mdl-cell--6-col custom-div">I can commit for</div>
+                                <div class="mdl-cell mdl-cell--6-col mdl-textfield mdl-js-textfield custom-ip">
+                                  <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="hours">
+                                  <label class="custom-label mdl-textfield__label" for="sample2">[X] hours..</label>
+                                  <span class="mdl-textfield__error">Input is not a number!</span>
+                                </div>
+                              </div>
+                            </div>
+                            
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <div class="mdl-dialog__actions">
+                      <button type="button" id="search-btn" class="mdl-button">Search</button>
+                      <button type="button" id="cancel-btn" class="mdl-button close">Cancel</button>
+                    </div>
+                  </dialog>
+<!--dialog ends-->
+
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
   <section id="main-page">
     
@@ -124,70 +190,7 @@
           <!--search button dialog box-->
           <button class="mdl-button mdl-js-button mdl-button--fab mdl-color--amber-600 mdl-shadow--4dp mdl-js-ripple-effect" id="otheradd">
                 <i class="material-icons">search</i>
-          </button> 
-              
-                  <dialog  class="mdl-dialog">
-                    <h4 class="mdl-dialog__title">Search</h4>
-                    <div>
-                      <div class="mdl-dialog__content">
-                        <div id="custom-1">I want to&nbsp 
-                            <div class="mdl-textfield mdl-js-textfield getmdl-select custom-ip">
-                              <input type="text" class="mdl-textfield__input" value="Volunteer" type="text" id="interest" readonly tabIndex="-1" data-val="1"/>
-                              <label id="custom-label" class="mdl-textfield__label" for="interest">Any interest</label>
-                                <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="interest">
-                                  <li class="mdl-menu__item" data-val="1">Volunteer</li>
-                                  <li class="mdl-menu__item" data-val="2">Intern</li>
-                                  <li class="mdl-menu__item" data-val="3">Research</li>
-                                  <li class="mdl-menu__item" data-val="4">Participate</li>
-                                </ul>
-                            </div>                  
-                            in&nbsp
-                            <div class="mdl-textfield mdl-js-textfield inputfield custom-ip">
-                              <input class="mdl-textfield__input" type="text" id="city">
-                              <label id="custom-label" class="mdl-textfield__label" for="sample1">City..</label>
-                            </div>
-                              for&nbsp
-                              <div class="mdl-textfield mdl-js-textfield getmdl-select custom-ip">
-                                  <input type="text" class="mdl-textfield__input" value="Any organization" type="text" id="organization-list" readonly tabIndex="-1" data-val="1"/>
-                                  <label class="custom-label mdl-textfield__label" for="country">Any organization</label>
-                                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="organization-list">
-                                      <li class="mdl-menu__item" data-val="1">organization1</li>
-                                      <li class="mdl-menu__item" data-val="2">organization2</li>
-                                      <li class="mdl-menu__item" data-val="3">organization3</li>
-                                      <li class="mdl-menu__item" data-val="4">organization4</li>
-                                    </ul>
-                                </div>
-                        </div>
-                        <div id="hour">
-                        I can commit for
-                          <div class="mdl-textfield mdl-js-textfield custom-ip">
-                            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="hours">
-                            <label class="custom-label mdl-textfield__label" for="sample2">[X] hours..</label>
-                            <span class="mdl-textfield__error">Input is not a number!</span>
-                          </div>
-                        </div>
-
-                        
-                      </div>
-                    </div>
-                    <div class="mdl-dialog__actions">
-                      <button type="button" id="search-btn" class="mdl-button">Search</button>
-                      <button type="button" id="cancel-btn" class="mdl-button close">Cancel</button>
-                    </div>
-                  </dialog>
-                
-                  <!--<div id="preLoader"></div>  
-
-                <script>
-                    $('#search-btn').click(function () {
-                        showLoading();
-                        setTimeout(function () {
-                            hideLoading();
-                        }, 3000);
-                    });
-                </script>
-                --> 
-                    
+          </button>                     
                   <script>
                     var dialog = document.querySelector('dialog');
                     var showDialogButton = document.querySelector('#otheradd');

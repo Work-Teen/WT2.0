@@ -1,78 +1,99 @@
-.mdl-dialog{
-	width: 460px;
+#search-dialog{
+    width: 460px;
 }
-#custom-1{
-	font-size: 20px;
+#custom-1, #custom-2, #custom-3{
+    font-size: 20px;
     text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
-#interest{
-	font-size: 20px;
+#custom-2{
+  margin-right: 0px;
 }
-#organization-list{
+#custom-3{
+  margin-left: 0px;
+}
+#interest, #city, #organization-list{
     font-size: 20px;
+    padding-bottom: 0px;
 }
-
-.custom-ip{
-    width: 180px;
-    font-size: 20px;
-}
-#hours,#city{
-	font-size: 20px;
-
-}
-.mdl-textfield__label:after{
-    background-color: rgb(244,67,54);
-}
-#custom-label{
-    width: 180px;
+#custom-4{
+  margin-right: 0px;
+  padding-right: 2px;
 }
 #hour{
-	text-align: center;
-	font-size: 20px
+    text-align: center;
+    font-size: 20px
 }
 .hide{
-	display: none;
+    display: none;
 }
 .show{
-	display: block;
+    display: block;
+}
+.custom-ip{
+  width: 130px;
+  margin-left: 5px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.custom-div{
+  padding-top: 23px;
+  text-align: right;
+  margin:2px;
+  margin-right:10px;
+  padding-right: 5px;
+}
+.custom-inputfield{
+  margin: 0px;
+}
+.custom-grid{
+  padding-left: 0px;
+  padding-right: 0px;
+}
+dialog {
+  position: absolute;
+  left: 0; right: 0;
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: -webkit-fit-content;
+  height: fit-content;
+  margin: auto;
+  border: solid;
+  padding: 1em;
+  background: white;
+  color: black;
+  display: none;
 }
 
-.loading-container {
-    position: absolute;
+dialog[open] {
+  display: block;
+}
+
+dialog + .backdrop {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: rgba(0,0,0,0.1);
+}
+
+/* for small devices, modal dialogs go full-screen */
+@media screen and (max-width: 540px) {
+  dialog[_polyfill_modal] {  /* TODO: implement */
     top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    overflow: scroll;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 9999;
-    opacity: 0;
-    -webkit-transition: opacity 400ms ease-in;
-    -moz-transition: opacity 400ms ease-in;
-    transition: opacity 400ms ease-in;
+    width: auto;
+    margin: 1em;
+  }
 }
 
-.dialog-container > div {
-    position: relative;
-    width: 90%;
-    max-width: 500px;
-    min-height: 25px;
-    margin: 10% auto;
-    z-index: 99999;
-    padding: 16px 16px 0;
+._dialog_overlay {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
 }
 
-
-
-.loading-container > div {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    margin: 10% auto;
-    z-index: 99999;
-}
-
-.loading-container > div > div {
-    width: 100%;
-    height: 100%;
+dialog.fixed {
+  position: fixed;
+  top: 50%;
+  transform: translate(0, -50%);
 }
